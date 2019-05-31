@@ -5,7 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui
-
+QT += network
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = cps
@@ -26,10 +26,14 @@ CONFIG += c++11
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp 
+        mainwindow.cpp   \
+        mode_abc.cpp \
+        mode_base.cpp
 
 HEADERS += \
-        mainwindow.h
+        mainwindow.h \
+        mode_abc.h \
+        mode_base.h
 
 FORMS += \
         mainwindow.ui

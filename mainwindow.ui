@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>832</width>
-    <height>666</height>
+    <width>879</width>
+    <height>766</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -40,7 +40,7 @@
       <item row="1" column="1">
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
-         <widget class="QLineEdit" name="le_p_danjai"/>
+         <widget class="QLineEdit" name="le_p_danjia"/>
         </item>
         <item>
          <widget class="QCheckBox" name="cb_tong">
@@ -58,55 +58,114 @@
         </item>
        </layout>
       </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="label_4">
-        <property name="text">
-         <string>600mm(台)</string>
-        </property>
-       </widget>
+      <item row="2" column="0" colspan="2">
+       <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <item>
+         <widget class="QLabel" name="label_4">
+          <property name="text">
+           <string>600mm(台) </string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="le_600"/>
+        </item>
+        <item>
+         <widget class="Line" name="line">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="le_fb1_size"/>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="le_fb1_sl"/>
+        </item>
+       </layout>
       </item>
-      <item row="2" column="1">
-       <widget class="QLineEdit" name="le_600"/>
+      <item row="3" column="0" colspan="2">
+       <layout class="QHBoxLayout" name="horizontalLayout_5">
+        <item>
+         <widget class="QLabel" name="label">
+          <property name="text">
+           <string>800mm(台) </string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="le_800"/>
+        </item>
+        <item>
+         <widget class="Line" name="line_2">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="le_fb2_size"/>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="le_fb2_sl"/>
+        </item>
+       </layout>
       </item>
-      <item row="3" column="0">
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>800mm(台)</string>
-        </property>
-       </widget>
+      <item row="4" column="0" colspan="2">
+       <layout class="QHBoxLayout" name="horizontalLayout_6">
+        <item>
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>1000mm(台)</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="le_1000"/>
+        </item>
+        <item>
+         <widget class="Line" name="line_3">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="le_fb3_size"/>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="le_fb3_sl"/>
+        </item>
+       </layout>
       </item>
-      <item row="3" column="1">
-       <widget class="QLineEdit" name="le_800"/>
+      <item row="5" column="0" colspan="2">
+       <layout class="QHBoxLayout" name="horizontalLayout_7">
+        <item>
+         <widget class="QLabel" name="label_3">
+          <property name="text">
+           <string>1200mm(台)</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="le_1200"/>
+        </item>
+       </layout>
       </item>
-      <item row="4" column="0">
-       <widget class="QLabel" name="label_2">
-        <property name="text">
-         <string>1000mm(台)</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="1">
-       <widget class="QLineEdit" name="le_1000"/>
-      </item>
-      <item row="5" column="0">
-       <widget class="QLabel" name="label_3">
-        <property name="text">
-         <string>1200mm(台)</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="1">
-       <widget class="QLineEdit" name="le_1200"/>
-      </item>
-      <item row="6" column="0">
-       <widget class="QLabel" name="label_5">
-        <property name="text">
-         <string>400mm(台)</string>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="1">
-       <widget class="QLineEdit" name="le_400"/>
+      <item row="6" column="0" colspan="2">
+       <layout class="QHBoxLayout" name="horizontalLayout_8">
+        <item>
+         <widget class="QLabel" name="label_5">
+          <property name="text">
+           <string>400mm(台) </string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="le_400"/>
+        </item>
+       </layout>
       </item>
       <item row="7" column="1">
        <layout class="QHBoxLayout" name="horizontalLayout_3"/>
@@ -142,6 +201,13 @@
          </widget>
         </item>
         <item>
+         <widget class="QPushButton" name="pushButton">
+          <property name="text">
+           <string>pop</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <spacer name="horizontalSpacer">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
@@ -165,7 +231,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>832</width>
+     <width>879</width>
      <height>23</height>
     </rect>
    </property>
@@ -180,7 +246,7 @@
   <tabstop>le_1000</tabstop>
   <tabstop>le_1200</tabstop>
   <tabstop>le_400</tabstop>
-  <tabstop>le_p_danjai</tabstop>
+  <tabstop>le_p_danjia</tabstop>
   <tabstop>cb_tong</tabstop>
   <tabstop>cb_lv</tabstop>
   <tabstop>pb_calc</tabstop>
