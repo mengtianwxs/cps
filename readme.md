@@ -1,7 +1,7 @@
 CPS
 ===
 
-<img src="https://github.com/mengtianwxs/cps/blob/master/images/preview.png" height=400/>
+        <img src="https://github.com/mengtianwxs/cps/blob/master/images/preview.png" height=700/>
 
 
 
