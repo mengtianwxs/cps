@@ -2,8 +2,8 @@ CPS
 ///////////////////////////////////////////
 ///////////////////////////////////////////
 <br/>
+<img src="https://github.com/mengtianwxs/cps/blob/master/images/preview.png" height=50/>
 
-![image](https://github.com/mengtianwxs/cps/blob/master/images/preview.png)
 <br/>
 
 
