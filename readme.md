@@ -45,6 +45,7 @@ CPS
         r reset
         ctrl+e setFoucs this
         p pop method
+        g segment sum
 
 
 

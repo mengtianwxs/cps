@@ -125,6 +125,7 @@ private slots:
     void method_tongreplyFinished(QNetworkReply*);
     //获取铝排的网上价格
      void method_lvreplyFinished(QNetworkReply*);
+     void method_g();
 
 
 

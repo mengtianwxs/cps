@@ -176,6 +176,9 @@ void MainWindow::initUI()
     connect(le_800,SIGNAL(returnPressed()),SLOT(method_enterGuiGe()));
     connect(le_1000,SIGNAL(returnPressed()),SLOT(method_enterGuiGe()));
     connect(le_1200,SIGNAL(returnPressed()),SLOT(method_enterGuiGe()));
+    connect(le_fb1_sl,SIGNAL(returnPressed()),SLOT(method_enterGuiGe()));
+    connect(le_fb2_sl,SIGNAL(returnPressed()),SLOT(method_enterGuiGe()));
+    connect(le_fb3_sl,SIGNAL(returnPressed()),SLOT(method_enterGuiGe()));
 }
 
 void MainWindow::method_Addcontent(QStringList sl_content,QStringList sl_state)
