@@ -662,6 +662,9 @@ void MainWindow::method_reset()
     list.clear();
     method_clear();
     le_guige->setFocus();
+    sl_state.clear();
+    sl_content.clear();
+    sl_taishu.clear();
 }
 
 void MainWindow::method_enterGuiGe()
