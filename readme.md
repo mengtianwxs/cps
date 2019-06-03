@@ -1,8 +1,10 @@
 CPS
 ///////////////////////////////////////////
 ///////////////////////////////////////////
+<br/>
 
-
+![image](https://github.com/mengtianwxs/cps/blob/master/images/preview.png)
+<br/>
 
 
 计算低压柜，高压柜水平排的价格，可以累加计算。包括高压柜主排，地排，低压柜主排，零排，地排和分支排。操作类型分为如下情况 :
@@ -50,39 +52,3 @@ p pop method
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-![image](https://github.com/mengtianwxs/cps/blob/master/images/preview.png)
