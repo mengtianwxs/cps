@@ -2,7 +2,7 @@ CPS
 ///////////////////////////////////////////
 ///////////////////////////////////////////
 <br/>
-<img src="https://github.com/mengtianwxs/cps/blob/master/images/preview.png" height=200/>
+<img src="https://github.com/mengtianwxs/cps/blob/master/images/preview.png" height=400/>
 
 <br/>
 
