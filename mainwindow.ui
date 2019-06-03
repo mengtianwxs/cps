@@ -201,7 +201,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton">
+         <widget class="QPushButton" name="pb_pop">
           <property name="text">
            <string>pop</string>
           </property>

@@ -1,6 +1,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "mode_base.h"
+
 #include <QLineEdit>
 #include <QMainWindow>
 #include <QPushButton>
@@ -30,6 +32,8 @@ private:
     QPushButton* pb_clear;
     QPushButton* pb_sumadd;
     QPushButton* pb_reset;
+    QPushButton* pb_pop;
+
     QLineEdit* le_guige;
     QTextEdit* te_content;
     QLineEdit* le_dj;
@@ -65,6 +69,8 @@ private:
     QString ppe_deep;
 
     QStringList list;
+    QStringList sl_content;
+    QStringList sl_state;
 
     //配电柜的数量
     int s400=0;
@@ -78,9 +84,9 @@ private:
     int fb3_num=0;
 
     //非标配电柜的宽度
-    int fb1_width=0;
-    int fb2_width=0;
-    int fb3_width=0;
+    double fb1_width=0;
+    double fb2_width=0;
+    double fb3_width=0;
 
 
     QNetworkAccessManager* nw_am;
@@ -90,13 +96,18 @@ private:
     QNetworkAccessManager* nw_amlv;
     QNetworkReply* nrlv;
     QString netprice_lv="";
+    QStringList sl_taishu;
+    int TotalTaiShu=0;
+
+    mode_base* mabc;
+
 
 
 protected:
     void initNetworkAccessManager();
     void initUI();
+    void method_Addcontent(QStringList sl,QStringList sl_state);
 
-//    void method_mode_abc(QStringList sl,int dj,QMap<QMap<QString,int>,int><int,int> fb_map);
 
 
 private slots:
@@ -108,6 +119,7 @@ private slots:
     void method_sumadd();
     void method_reset();
     void method_enterGuiGe();
+    void method_pop();
     void keyPressEvent(QKeyEvent* event);
     //获取铜排的网上价格
     void method_tongreplyFinished(QNetworkReply*);

@@ -5,55 +5,60 @@ mode_abc::mode_abc()
 
 }
 
-QMap<QString, QString> mode_abc::method_calc(QStringList sl, QMap<QString, int> map)
+
+
+void mode_abc::method_calc(QStringList sl_jiahao,QMap<QString,QString> map)
 {
 
+    initMap(map);
+     pabc=sl_jiahao.at(0);
+    sl_xinghao=pabc.split("*");
+    pabc_width=sl_xinghao.at(0).toInt();
+     pabc_deep=sl_xinghao.at(1).toInt();
 
-    QString pabc=sl_jiahao.at(0);
-    QStringList sl_xinghao=pabc.split("*");
-    int pabc_width=sl_xinghao.at(0).toInt();
-    int pabc_deep=sl_xinghao.at(1).toInt();
-    map_result.insert("te1",QString::number(pabc_width)+"*"+QString::number(pabc_deep));
-
-//    te_content->append(QString::number(pabc_width)+"*"+QString::number(pabc_deep));
-
+    sl_content.append(QString::number(pabc_width)+"*"+QString::number(pabc_deep));
 
 
-    if(state_num==0)
+
+    if(state=="t")
     {
-        map_result.insert("sbt","ABC MODE | 单排 材质 铜");
-//        ui->statusBar->showMessage("ABC MODE | 单排 材质 铜");
-        T=pabc_width*pabc_deep*8.9*dj/1000;
-        map_result.insert("i2",QString::number(T)+" T");
-//        te_content->append(QString::number(T)+" T");
 
-        QString TS="T*3*(0.6*"+QString::number(s600)+
-                "+0.8*"+QString::number(s800)+
-                "+1*"+QString::number(s1000)+
-                "+1.2*"+QString::number(s1200)+
-                "+0.4*"+QString::number(s400)+")";
-        map_result.insert("i3",TS);
-        te_content->append(TS);
 
-        int SUMTS=T*3*(0.4*s400+0.6*s600+0.8*s800+1*s1000+1.2*s1200);
-        te_content->append("= "+QString::number(SUMTS)+"\n");
-        list.append(QString::number(SUMTS));
+        sl_status.append("ABC MODE | 单排 材质 铜");
+        P=pabc_width*pabc_deep*8.9*dj/1000;
+         sl_content.append("P= "+QString::number(P)+" T");
+
     }
+    if(state=="l"){
 
-    if(state_num==1)
-    {
-        ui->statusBar->showMessage("ABC MODE | 单排 材质 铝");
-        int L=0;
-        L=pabc_width*pabc_deep*2.7*dj/1000;
-        te_content->append(QString::number(L)+" L");
-        QString LS="L*3*(0.6*"+QString::number(s600)+"+0.8*"+QString::number(s800)+"+1*"+QString::number(s1000)+"+1.2*"+QString::number(s1200)+"+0.4*"+QString::number(s400)+")";
-        te_content->append(LS);
-        int SUMLS=L*3*(0.4*s400+0.6*s600+0.8*s800+1*s1000+1.2*s1200);
-        te_content->append("= "+QString::number(SUMLS)+"\n");
-        list.append(QString::number(SUMLS));
+
+        sl_status.append("ABC MODE | 单排 材质 铝");
+
+       P=pabc_width*pabc_deep*2.7*dj/1000;
+
+        sl_content.append("P= "+QString::number(P)+" L");
 
     }
 
-    return map_result;
+
+
+        PAI="P*3*(0.6*"+str_t600num+
+                "+0.8*"+str_t800num+
+                "+1*"+str_t1000num+
+                "+1.2*"+str_t1200num+
+                "+0.4*"+str_t400num+"+"+
+                str_tfb1_width+"*"+str_tfb1_num+"+"+
+                str_tfb2_width+"*"+str_tfb2_num+"+"+
+                str_tfb3_width+"*"+str_tfb3_num+")";
+        sl_content.append(PAI);
+
+        SUMP=P*3*(0.4*t400_num+0.6*t600_num+0.8*t800_num+1*t1000_num+1.2*t1200_num+tfb1_width*tfb1_num+tfb2_width*tfb2_num+tfb3_width*tfb3_num);
+
+        sl_content.append("= "+QString::number(SUMP)+"\n");
+        list.append(QString::number(SUMP));
+
+
+
+
+
 }
-

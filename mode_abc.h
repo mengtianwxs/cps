@@ -5,11 +5,12 @@
 
 
 
-class mode_abc :public mode_base
+class mode_abc : public mode_base
 {
 public:
     mode_abc();
-    QMap<QString,QString> method_calc(QStringList sl,QMap<QString,int> map);
+
+    void method_calc(QStringList sl_jiahao,QMap<QString,QString> map);
 };
 
 #endif // MODE_ABC_H

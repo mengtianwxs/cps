@@ -34,7 +34,7 @@ CPS
 @19  -price*m    -800*10
 @20  -price*ms*ts -100*10*12*6 m代表米数，ts代表台数
 
-@21 @750*1*100*10  非标模式
+@21 size*sl@TYPE 700*10@100*10+100*10+80*8  非标模式
 
 hotkey
 
@@ -44,4 +44,6 @@ c sum **
 enter calc **
 w clear and write data to guige lineedit
 r reset
+ctrl+e setFoucs this
+p pop method
 

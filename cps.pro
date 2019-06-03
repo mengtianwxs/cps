@@ -27,13 +27,53 @@ CONFIG += c++11
 SOURCES += \
         main.cpp \
         mainwindow.cpp   \
-        mode_abc.cpp \
-        mode_base.cpp
+        mode_base.cpp \
+    mode_abc.cpp \
+    mode_2abc.cpp \
+    mode_abcn.cpp \
+    mode_abc2n.cpp \
+    mode_2abcn.cpp \
+    mode_2abc2n.cpp \
+    mode_abcnpe.cpp \
+    mode_abcn2pe.cpp \
+    mode_abc2npe.cpp \
+    mode_abc2n2pe.cpp \
+    mode_2abcnpe.cpp \
+    mode_2abcn2pe.cpp \
+    mode_2abc2npe.cpp \
+    mode_2abc2n2pe.cpp \
+    mode_4abcn.cpp \
+    mode_4abcnpe.cpp \
+    mode_pm.cpp \
+    mode_price.cpp \
+    mode_pricem.cpp \
+    mode_pricemt.cpp \
+    mode_sstype.cpp
 
 HEADERS += \
         mainwindow.h \
-        mode_abc.h \
-        mode_base.h
+        mode_base.h \
+    mode_abc.h \
+    mode_2abc.h \
+    mode_abcn.h \
+    mode_abc2n.h \
+    mode_2abcn.h \
+    mode_2abc2n.h \
+    mode_abcnpe.h \
+    mode_abcn2pe.h \
+    mode_abc2npe.h \
+    mode_abc2n2pe.h \
+    mode_2abcnpe.h \
+    mode_2abcn2pe.h \
+    mode_2abc2npe.h \
+    mode_2abc2n2pe.h \
+    mode_4abcn.h \
+    mode_4abcnpe.h \
+    mode_pm.h \
+    mode_price.h \
+    mode_pricem.h \
+    mode_pricemt.h \
+    mode_sstype.h
 
 FORMS += \
         mainwindow.ui
