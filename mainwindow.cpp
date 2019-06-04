@@ -19,7 +19,6 @@
 #include "mode_price.h"
 #include "mode_pricem.h"
 #include "mode_pricemt.h"
-#include "mode_sstype.h"
 #include "ui_mainwindow.h"
 
 #include <QRegExpValidator>
@@ -58,7 +57,7 @@ void MainWindow::initNetworkAccessManager()
 
 void MainWindow::initUI()
 {
-    this->setWindowTitle("cps     made by mengtianwxs (calc pai price)");
+    this->setWindowTitle("cps     made by mengtianwxs");
     le_guige=ui->le_pai_guige;
 
     pb_calc=ui->pb_calc;
@@ -83,16 +82,23 @@ void MainWindow::initUI()
     le_800=ui->le_800;
     le_1000=ui->le_1000;
     le_1200=ui->le_1200;
+    le_fb1_sl=ui->le_fb1_sl;
+    le_fb2_sl=ui->le_fb2_sl;
+    le_fb3_sl=ui->le_fb3_sl;
+    le_fb1_size=ui->le_fb1_size;
+    le_fb2_size=ui->le_fb2_size;
+    le_fb3_size=ui->le_fb3_size;
 
     le_400->setPlaceholderText("0");
     le_600->setPlaceholderText("0");
     le_800->setPlaceholderText("0");
     le_1000->setPlaceholderText("0");
     le_1200->setPlaceholderText("0");
+    le_fb1_sl->setPlaceholderText("0");
+    le_fb2_sl->setPlaceholderText("0");
+    le_fb3_sl->setPlaceholderText("0");
 
-    le_fb1_size=ui->le_fb1_size;
-    le_fb2_size=ui->le_fb2_size;
-    le_fb3_size=ui->le_fb3_size;
+
 
     if(le_fb1_size->text()==""){
         le_fb1_size->setText("900");
@@ -117,16 +123,15 @@ void MainWindow::initUI()
 
 
 
-    le_fb1_sl=ui->le_fb1_sl;
-    le_fb2_sl=ui->le_fb2_sl;
-    le_fb3_sl=ui->le_fb3_sl;
 
 
 
     QRegExp regx("[1-9][0-9]{0,4}");
     QValidator *vali=new QRegExpValidator(regx,this);
-    le_800->setValidator(vali);
+
+
     le_600->setValidator(vali);
+    le_800->setValidator(vali);
     le_400->setValidator(vali);
     le_1000->setValidator(vali);
     le_1200->setValidator(vali);
@@ -137,7 +142,7 @@ void MainWindow::initUI()
     le_fb3_size->setValidator(vali);
 
     QRegExp regsl("[0-9][0-9]{0,4}");
-     QValidator *vali1=new QRegExpValidator(regsl,this);
+    QValidator *vali1=new QRegExpValidator(regsl,this);
 
     le_fb1_sl->setValidator(vali1);
     le_fb2_sl->setValidator(vali1);
@@ -152,7 +157,7 @@ void MainWindow::initUI()
                        "(\\-[1-9][0-9][0-9]?\\*[1-9][0-9]?\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?\\.?[0-9]?[0-9]?[0-9]?\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?)|"
                        );
 
-    QValidator* vali_gg=new QRegExpValidator(regx_guige,this);
+    QValidator*  vali_gg=new QRegExpValidator(regx_guige,this);
     le_guige->setValidator(vali_gg);
     le_guige->setPlaceholderText("2*100*10+2*80*8+2*60*6");
     le_guige->setFocus();
@@ -160,7 +165,7 @@ void MainWindow::initUI()
     te_content->setEnabled(true);
 
     //hotkey setting
-//   this->setFocusPolicy(Qt::StrongFocus);
+    //   this->setFocusPolicy(Qt::StrongFocus);
 
     connect(cb_tong,SIGNAL(stateChanged(int)),this,SLOT(method_cbt(int)));
     connect(cb_lv,SIGNAL(stateChanged(int)),this,SLOT(method_cbl(int)));
@@ -171,7 +176,7 @@ void MainWindow::initUI()
     connect(pb_reset,SIGNAL(clicked()),this,SLOT(method_reset()));
     connect(pb_pop,SIGNAL(clicked()),this,SLOT(method_pop()));
 
-    connect(le_guige,SIGNAL(returnPressed()),SLOT(method_enterGuiGe()));
+    connect(le_guige,SIGNAL(returnPressed()),SLOT(method_enterp()));
     connect(le_400,SIGNAL(returnPressed()),SLOT(method_enterGuiGe()));
     connect(le_600,SIGNAL(returnPressed()),SLOT(method_enterGuiGe()));
     connect(le_800,SIGNAL(returnPressed()),SLOT(method_enterGuiGe()));
@@ -206,61 +211,53 @@ void MainWindow::method_lvreplyFinished(QNetworkReply *)
 
     int ci=reg.indexIn(str);
     QString content=str.mid(ci,20);
-//              qDebug()<<content;
+    //              qDebug()<<content;
 
 
     QRegExp regint("(m.*>)(\\d+)");
     regint.indexIn(content);
-   QString strcap=regint.cap(2);
-   if(strcap==""){
-       netprice_lv="24";
+    QString strcap=regint.cap(2);
+    if(strcap==""){
+        netprice_lv="24";
 
-   }
+    }
     netprice_lv=QString::number(strcap.toInt()/1000+10);
-//    qDebug()<<netprice_lv;
+    //    qDebug()<<netprice_lv;
 
 }
 
 void MainWindow::method_g()
 {
     method_sumadd();
-    list.clear();
+
     method_clear();
-    le_guige->setFocus();
+
+    list.clear();
     sl_state.clear();
     sl_content.clear();
     sl_taishu.clear();
+     le_guige->setFocus();
 
 }
 
 void MainWindow::method_tongreplyFinished(QNetworkReply *)
 {
 
-              QTextCodec *codec=QTextCodec::codecForName("utf-8");
-              QString str=codec->toUnicode(nr->readAll());
-              QRegExp reg("ml10");
+    QTextCodec *codec=QTextCodec::codecForName("utf-8");
+    QString str=codec->toUnicode(nr->readAll());
+    QRegExp reg("ml10");
 
-              int ci=reg.indexIn(str);
-               QString content=str.mid(ci,20);
-//              qDebug()<<content;
+    int ci=reg.indexIn(str);
+    QString content=str.mid(ci,20);
 
-
-              QRegExp regint("(m.*>)(\\d+)");
-              regint.indexIn(content);
-              QString strcap=regint.cap(2);
-              if(strcap==" "){
-                  netprice_tong="60";
-              }
-              netprice_tong=QString::number(strcap.toInt()/1000+10);
-             (netprice_tong=="")?le_dj->setText("60"):le_dj->setText(netprice_tong);
-
-//              qDebug()<<netprice_tong;
-
-//               int tp_start=reg_start.indexIn(content);
-//               int tp_end=reg_end.indexIn(content);
-//               qDebug()<<content;
-//               qDebug()<<tp_start<<"@"<<tp_end;
-//               qDebug()<<content.mid(tp_start+1,5);
+    QRegExp regint("(m.*>)(\\d+)");
+    regint.indexIn(content);
+    QString strcap=regint.cap(2);
+    if(strcap==" "){
+        netprice_tong="60";
+    }
+    netprice_tong=QString::number(strcap.toInt()/1000+10);
+    (netprice_tong=="")?le_dj->setText("60"):le_dj->setText(netprice_tong);
 
 }
 
@@ -319,12 +316,12 @@ void MainWindow::method_calc()
     //@17  pm         100*10*12  //p: 100*10 m:12 p代表排的规格，m代表数量
     QRegExp re_pm("\\-[1-9][0-9][0-9]?\\*[1-9][0-9]?\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?\\.?[0-9]?[0-9]?[0-9]?");
 
-//    @18  price      p1000  单台柜子的价格
+    //    @18  price      p1000  单台柜子的价格
     QRegExp re_price("\\-[1-9][0-9][0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?");
 
-//    @19  price*m    p800*10
+    //    @19  price*m    p800*10
     QRegExp re_pricem("\\-[1-9][0-9][0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?\\.?[0-9]?[0-9]?[0-9]?");
-//    @20 price*m*t p代表规格，m代表数量 ,t代表台数
+    //    @20 price*m*t p代表规格，m代表数量 ,t代表台数
     QRegExp re_pricemt("\\-[1-9][0-9][0-9]?\\*[1-9][0-9]?\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?\\.?[0-9]?[0-9]?[0-9]?\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?");
 
 
@@ -344,22 +341,15 @@ void MainWindow::method_calc()
     fb2_num=le_fb2_sl->text().toInt();
     fb3_num=le_fb3_sl->text().toInt();
 
-
-
     //判断有几个加号，同时也需要判断柜子的数量不能为0，如果全为0则没有什么意义。
     bool ggd_bool=s400!=0 || s600!=0 || s800!=0 || s1000!=0 || s1200!=0 || fb1_num!=0 || fb2_num!=0 || fb3_num !=0 ;
-
     //排的单价
     int dj=le_dj->text().toInt();
     //排的规格
-     QString txt=le_guige->text();
+    QString txt=le_guige->text();
     QStringList sl_jiahao=txt.split("+");
-
     //把柜体的数量，柜体的宽度传入map
     QMap<QString,QString> map;
-
-
-
 
     map.insert("s400",QString::number(s400));
     map.insert("s600",QString::number(s600));
@@ -375,30 +365,21 @@ void MainWindow::method_calc()
     map.insert("sfb2_num",QString::number(fb2_num));
     map.insert("sfb3_num",QString::number(fb3_num));
     map.insert("state",state);
-     map.insert("dj",QString::number(dj));
-
-
+    map.insert("dj",QString::number(dj));
 
 
     if(ggd_bool){
-
-
-
         //@@1  --------------------------------------------------------------------------
         if(re_abc.exactMatch(txt))
         {
             mabc=new mode_abc();
 
         }
-
-
         //    @@2  -------------------------------------------------------
         if(re_2abc.exactMatch(txt))
         {
 
             mabc=new mode_2abc();
-
-
 
         }
 
@@ -410,16 +391,11 @@ void MainWindow::method_calc()
 
 
         }
-
-
-
         //    @@4---------------------------------------------------
 
         if(re_abc2n.exactMatch(txt)){
 
             mabc=new mode_abc2n();
-
-
         }
 
 
@@ -429,19 +405,12 @@ void MainWindow::method_calc()
 
             mabc=new mode_2abcn();
 
-
-
         }
 
         //    @@6 ------------------------------------------------------
 
         if(re_2abc2n.exactMatch(txt)){
-
-
-
             mabc=new mode_2abc2n();
-
-
 
         }
 
@@ -451,15 +420,13 @@ void MainWindow::method_calc()
 
             mabc=new mode_abcnpe();
 
-
-
         }
 
         //    @@8 ------------------------------------------------------
         if(re_abcn2pe.exactMatch(txt)){
 
 
-          mabc=new mode_abcn2pe();
+            mabc=new mode_abcn2pe();
 
         }
 
@@ -467,7 +434,7 @@ void MainWindow::method_calc()
         //    @@ 9------------------------------------------------------
         if(re_abc2npe.exactMatch(txt)){
 
-           mabc=new mode_abc2npe();
+            mabc=new mode_abc2npe();
 
         }
 
@@ -476,7 +443,7 @@ void MainWindow::method_calc()
         if(re_abc2n2pe.exactMatch(txt)){
 
 
-             mabc=new mode_abc2n2pe();
+            mabc=new mode_abc2n2pe();
 
 
         }
@@ -487,21 +454,16 @@ void MainWindow::method_calc()
         if(re_2abcnpe.exactMatch(txt)){
 
 
-          mabc=new mode_2abcnpe();
+            mabc=new mode_2abcnpe();
 
 
         }
-
-
-
 
         //    @@ 12------------------------------------------------------
 
         if(re_2abcn2pe.exactMatch(txt)){
-          mabc=new mode_2abcn2pe();
+            mabc=new mode_2abcn2pe();
         }
-
-
 
         //    @@ 13------------------------------------------------------
 
@@ -514,7 +476,7 @@ void MainWindow::method_calc()
 
         if(re_2abc2n2pe.exactMatch(txt)){
 
-         mabc=new mode_2abc2n2pe();
+            mabc=new mode_2abc2n2pe();
 
 
         }
@@ -524,7 +486,7 @@ void MainWindow::method_calc()
         if(re_4abcn.exactMatch(txt)){
 
 
-          mabc=new mode_4abcn();
+            mabc=new mode_4abcn();
         }
 
 
@@ -533,72 +495,54 @@ void MainWindow::method_calc()
         if(re_4abcnpe.exactMatch(txt)){
 
 
-        mabc=new mode_4abcnpe();
+            mabc=new mode_4abcnpe();
 
 
         }
 
-
-
-
- }//ggd_bool end
-        //@  17------------------------------------------------------------
-        //@17  pm  abc mode        p100*10*12  //p: 100*10 m:12 p代表排的规格，m代表数量
+    }//ggd_bool end
+    //@  17------------------------------------------------------------
+    //@17  pm  abc mode        p100*10*12  //p: 100*10 m:12 p代表排的规格，m代表数量
 
     if(re_pm.exactMatch(txt)){
 
-          mabc=new mode_pm();
+        mabc=new mode_pm();
 
+    }
 
-          }
+    //    @18  price      p1000  单台柜子的价格
+    //            QRegExp re_price("\\-[1-9][0-9][0-9]?[0-9]?");
+    if(re_price.exactMatch(txt)){
 
-        //    @18  price      p1000  单台柜子的价格
-//            QRegExp re_price("\\-[1-9][0-9][0-9]?[0-9]?");
-        if(re_price.exactMatch(txt)){
+        mabc=new mode_price();
 
+    }
 
-          mabc=new mode_price();
+    //    @19  price*m    p800*10
+    //            QRegExp re_pricem("\\-[1-9][0-9][0-9]?[0-9]?\\*[1-9][0-9]?[0-9]?[0-9]?");
+    if(re_pricem.exactMatch(txt)){
+        mabc=new mode_pricem();
 
+    }
 
-        }
+    //@  20------------------------------------------------------------
+    //@20  pmt  abc mode        p100*10*12*10  //p: 100*10 m:12 p代表排的规格，m代表数量 ,t代表台数
+    if(re_pricemt.exactMatch(txt))
+    {
+        mabc=new mode_pricemt();
 
-        //    @19  price*m    p800*10
-//            QRegExp re_pricem("\\-[1-9][0-9][0-9]?[0-9]?\\*[1-9][0-9]?[0-9]?[0-9]?");
-        if(re_pricem.exactMatch(txt)){
-           mabc=new mode_pricem();
+    }
 
-        }
+    //判断mabc是否实例化，如果没实例化就不执行
+    if(mabc!=NULL){
+        mabc->method_calc(sl_jiahao,map);
+        sl_content=mabc->getSLContent();
+        sl_state=mabc->getSLStatus();
+        list.append(mabc->getList());
+        sl_taishu.append(QString::number(mabc->getTaiShu()));
+        method_Addcontent(sl_content,sl_state);
 
-
-
-        //@  20------------------------------------------------------------
-        //@20  pmt  abc mode        p100*10*12*10  //p: 100*10 m:12 p代表排的规格，m代表数量 ,t代表台数
-        if(re_pricemt.exactMatch(txt))
-        {
-           mabc=new mode_pricemt();
-
-        }
-
-
-
-        //判断mabc是否实例化，如果没实例化就不执行
-        if(mabc!=NULL){
-            mabc->method_calc(sl_jiahao,map);
-            sl_content=mabc->getSLContent();
-            sl_state=mabc->getSLStatus();
-            list.append(mabc->getList());
-            sl_taishu.append(QString::number(mabc->getTaiShu()));
-            method_Addcontent(sl_content,sl_state);
-
-        }
-
-
-
-
-
-
-
-
+    }
 
 }//end
 
@@ -611,7 +555,7 @@ void MainWindow::method_cbt(int s)
         cb_tong->setChecked(true);
         state="t";
         if(netprice_tong==""){
-             le_dj->setText("60");
+            le_dj->setText("60");
         }else{
 
             le_dj->setText(netprice_tong);
@@ -669,32 +613,56 @@ void MainWindow::method_sumadd()
 
         te_content->append("sum ( "+list.join(",")+" )");
         te_content->append("sum ==========>> "+QString::number(sum)+" Total "+QString::number(TotalTaiShu)+" 台"+"\n");
-          TotalTaiShu=0;
+        TotalTaiShu=0;
     }
 }
 
 void MainWindow::method_reset()
 {
     te_content->clear();
-    list.clear();
+    while(!list.isEmpty()){
+
+        list.clear();
+    }
+
+    while(!sl_state.isEmpty()){
+
+        sl_state.clear();
+    }
+    while(!sl_content.isEmpty()){
+
+        sl_content.clear();
+    }
+    while(!sl_taishu.isEmpty()){
+
+        sl_taishu.clear();
+    }
     method_clear();
+
     le_guige->setFocus();
-    sl_state.clear();
-    sl_content.clear();
-    sl_taishu.clear();
 }
 
 void MainWindow::method_enterGuiGe()
 {
     method_calc();
+
+
+
+    ui->cb_tong->setFocus();
+
+}
+
+void MainWindow::method_enterp()
+{
+
     le_guige->clearFocus();
     le_400->clearFocus();
     le_600->clearFocus();
     le_800->clearFocus();
     le_1000->clearFocus();
     le_1200->clearFocus();
-
 }
+
 
 void MainWindow::method_pop()
 {
@@ -711,7 +679,7 @@ void MainWindow::method_pop()
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
-//    qDebug()<<event->key();
+    //    qDebug()<<event->key();
 
     if(event->key()==Qt::Key_C)
     {
@@ -727,12 +695,58 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
     }
     if(event->key()==Qt::Key_B){
-        method_clear();
-        le_guige->setFocus();
+        le_600->clear();
+        le_800->clear();
+        le_1000->clear();
+        le_1200->clear();
+        le_400->clear();
+        le_fb1_sl->clear();
+        le_fb2_sl->clear();
+        le_fb3_sl->clear();
+//        le_guige->setFocus();
     }
     if(event->key()==Qt::Key_R){
         method_reset();
     }
+
+    if(event->key()==Qt::Key_T || event->key()==Qt::Key_1){
+        le_600->setFocus();
+    }
+
+    if(event->key()==Qt::Key_2){
+        le_800->setFocus();
+    }
+    if(event->key()==Qt::Key_3){
+        le_1000->setFocus();
+    }
+    if(event->key()==Qt::Key_4){
+        le_1200->setFocus();
+    }
+    if(event->key()==Qt::Key_5){
+        le_400->setFocus();
+    }
+    if(event->key()==Qt::Key_6){
+        le_fb1_sl->setFocus();
+    }
+    if(event->key()==Qt::Key_7){
+        le_fb2_sl->setFocus();
+    }
+    if(event->key()==Qt::Key_8){
+        le_fb3_sl->setFocus();
+    }
+    if(event->key()==Qt::Key_Y){
+        le_fb1_size->setText("");
+        le_fb1_size->setFocus();
+    }
+    if(event->key()==Qt::Key_U){
+        le_fb2_size->setText("");
+        le_fb2_size->setFocus();
+    }
+    if(event->key()==Qt::Key_I){
+        le_fb3_size->setText("");
+        le_fb3_size->setFocus();
+    }
+
 
     if(event->modifiers()==Qt::ControlModifier && event->key()==Qt::Key_E){
         le_guige->clearFocus();

@@ -34,7 +34,7 @@ CPS
 
 
 `hotkey`
-
+        you can use tab key to lose focus first
 
         - again write **
         b clear **
@@ -45,6 +45,19 @@ CPS
         ctrl+e setFoucs this
         p pop method
         g segment sum
+        Y fb1 size
+        U fb2 size
+        I fb3 size
+        1 600 num
+        2 800 num
+        3 1000 num
+        4 1200 num
+        5 400 num
+        6 fb1 num
+        7 fb2 num
+        8 fb3 num
+
+
 
 
 

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>879</width>
+    <width>1016</width>
     <height>766</height>
    </rect>
   </property>
@@ -231,8 +231,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>879</width>
-     <height>23</height>
+     <width>1016</width>
+     <height>25</height>
     </rect>
    </property>
   </widget>
@@ -241,19 +241,26 @@
  <layoutdefault spacing="6" margin="11"/>
  <tabstops>
   <tabstop>le_pai_guige</tabstop>
+  <tabstop>cb_tong</tabstop>
   <tabstop>le_600</tabstop>
   <tabstop>le_800</tabstop>
   <tabstop>le_1000</tabstop>
   <tabstop>le_1200</tabstop>
   <tabstop>le_400</tabstop>
-  <tabstop>le_p_danjia</tabstop>
-  <tabstop>cb_tong</tabstop>
+  <tabstop>le_fb1_size</tabstop>
+  <tabstop>le_fb1_sl</tabstop>
+  <tabstop>le_fb2_size</tabstop>
+  <tabstop>le_fb2_sl</tabstop>
+  <tabstop>le_fb3_size</tabstop>
+  <tabstop>le_fb3_sl</tabstop>
   <tabstop>cb_lv</tabstop>
+  <tabstop>te_content</tabstop>
+  <tabstop>le_p_danjia</tabstop>
   <tabstop>pb_calc</tabstop>
   <tabstop>pb_clear</tabstop>
   <tabstop>pb_sumadd</tabstop>
   <tabstop>pb_reset</tabstop>
-  <tabstop>te_content</tabstop>
+  <tabstop>pb_pop</tabstop>
  </tabstops>
  <resources/>
  <connections/>

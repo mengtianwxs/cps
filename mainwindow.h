@@ -103,6 +103,7 @@ private:
 
 
 
+
 protected:
     void initNetworkAccessManager();
     void initUI();
@@ -119,6 +120,7 @@ private slots:
     void method_sumadd();
     void method_reset();
     void method_enterGuiGe();
+    void method_enterp();
     void method_pop();
     void keyPressEvent(QKeyEvent* event);
     //获取铜排的网上价格
