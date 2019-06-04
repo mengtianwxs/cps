@@ -228,7 +228,26 @@ void MainWindow::method_lvreplyFinished(QNetworkReply *)
 
 void MainWindow::method_g()
 {
-    method_sumadd();
+    int len=list.length();
+    if(len>0){
+        double sum=0;
+        for (int i=0;i<len;i++){
+            sum=sum+list.at(i).toDouble();
+
+        }
+
+        qDebug()<<"sltaishu="<<sl_taishu.length();
+
+        for(int d=0;d<sl_taishu.length();d++)
+        {
+            TotalTaiShu=TotalTaiShu+sl_taishu.at(d).toInt();
+            qDebug()<<TotalTaiShu<<"="<<sl_taishu;
+        }
+
+        te_content->append("segment sum ( "+list.join(",")+" )");
+        te_content->append("segment sum ==========>> "+QString::number(sum)+" Total "+QString::number(TotalTaiShu)+" 台"+"\n");
+        TotalTaiShu=0;
+    }
 
     method_clear();
 
