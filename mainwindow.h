@@ -99,7 +99,7 @@ private:
     QStringList sl_taishu;
     int TotalTaiShu=0;
 
-    mode_base* mabc;
+    mode_base* mabc=NULL;
 
 
 

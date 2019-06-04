@@ -144,13 +144,14 @@ void MainWindow::initUI()
     le_fb3_sl->setValidator(vali1);
 
 
-    QRegExp regx_guige("(([1-9][0-9]?[0-9]?[0-9]?\\*?[1-9][0-9]?[0-9]?[0-9]?@?)?[1-3]?\\*?[1-9][0-9][0-9]?\\*[1-9][0-9]?\\+[1-9]?\\*?[1-9][0-9]?[0-9]?\\*[1-9][0-9]?\\+[1-9]?\\*?[1-9][0-9]?[0-9]?\\*([1-9][0-9]?)?)|"
+    QRegExp regx_guige("([1-3]?\\*?[1-9][0-9][0-9]?\\*[1-9][0-9]?\\+[1-9]?\\*?[1-9][0-9]?[0-9]?\\*[1-9][0-9]?\\+[1-9]?\\*?[1-9][0-9]?[0-9]?\\*([1-9][0-9]?)?)|"
                        "(4\\*[1-9][0-9][0-9]?\\*[1-9][0-9]?\\+[1-9][0-9]?[0-9]?\\*[1-9][0-9]?)|"
                        "(\\-[1-9][0-9][0-9]?\\*[1-9][0-9]?\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?\\.?[0-9]?[0-9]?[0-9]?)|"
                        "(\\-[1-9][0-9][0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?)|"
                        "(\\-[1-9][0-9][0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?\\.?[0-9]?[0-9]?[0-9]?)|"
-                       "(\\-[1-9][0-9][0-9]?\\*[1-9][0-9]?\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?\\.?[0-9]?[0-9]?[0-9]?\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?)"
+                       "(\\-[1-9][0-9][0-9]?\\*[1-9][0-9]?\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?\\.?[0-9]?[0-9]?[0-9]?\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?)|"
                        );
+
     QValidator* vali_gg=new QRegExpValidator(regx_guige,this);
     le_guige->setValidator(vali_gg);
     le_guige->setPlaceholderText("2*100*10+2*80*8+2*60*6");
@@ -176,6 +177,9 @@ void MainWindow::initUI()
     connect(le_800,SIGNAL(returnPressed()),SLOT(method_enterGuiGe()));
     connect(le_1000,SIGNAL(returnPressed()),SLOT(method_enterGuiGe()));
     connect(le_1200,SIGNAL(returnPressed()),SLOT(method_enterGuiGe()));
+    connect(le_fb1_sl,SIGNAL(returnPressed()),SLOT(method_enterGuiGe()));
+    connect(le_fb2_sl,SIGNAL(returnPressed()),SLOT(method_enterGuiGe()));
+    connect(le_fb3_sl,SIGNAL(returnPressed()),SLOT(method_enterGuiGe()));
 }
 
 void MainWindow::method_Addcontent(QStringList sl_content,QStringList sl_state)
@@ -323,7 +327,7 @@ void MainWindow::method_calc()
 //    @20 price*m*t p代表规格，m代表数量 ,t代表台数
     QRegExp re_pricemt("\\-[1-9][0-9][0-9]?\\*[1-9][0-9]?\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?\\.?[0-9]?[0-9]?[0-9]?\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?");
     //@21 size*sl@TYPE 700*10@100*10
-    QRegExp re_sstype("[1-9][0-9]?[0-9]?[0-9]?\\*?[1-9][0-9]?[0-9]?[0-9]?@[1-4]?\\*?[1-9][0-9][0-9]?\\*[1-9][0-9]?[0-9]?\\+?[1-3]?\\*?([1-9][0-9][0-9])?\\*?[1-9]?[0-9]?\\+?[1-3]?\\*?[1-9]?[0-9]?[0-9]?\\*?[1-9]?[0-9]?");
+    QRegExp re_sstype("[1-9][0-9][0-9]?\\*[1-9][0-9]?@[1-3]?\\*?[1-9][0-9]?[0-9]?\\*[1-9][0-9]?[0-9]?\\+?[1-3]?\\*?[1-9][0-9]?[0-9]?\\*[1-9][0-9]?[0-9]?\\+[1-3]?\\*?[1-9][0-9]?[0-9]?\\*[1-9][0-9]?[0-9]?");
 
 
     (le_400->text()=="")?s400=0:s400=le_400->text().toInt();
@@ -352,7 +356,6 @@ void MainWindow::method_calc()
     //排的规格
      QString txt=le_guige->text();
     QStringList sl_jiahao=txt.split("+");
-    QStringList sl_jiahaoF=txt.split("*");
 
     //把柜体的数量，柜体的宽度传入map
     QMap<QString,QString> map;
@@ -579,20 +582,19 @@ void MainWindow::method_calc()
         }
 
 
-        mabc->method_calc(sl_jiahao,map);
-        sl_content=mabc->getSLContent();
-        sl_state=mabc->getSLStatus();
-        list.append(mabc->getList());
-        sl_taishu.append(QString::number(mabc->getTaiShu()));
-         method_Addcontent(sl_content,sl_state);
 
+        //判断mabc是否实例化，如果没实例化就不执行
+        if(mabc!=NULL){
+            mabc->method_calc(sl_jiahao,map);
+            sl_content=mabc->getSLContent();
+            sl_state=mabc->getSLStatus();
+            list.append(mabc->getList());
+            sl_taishu.append(QString::number(mabc->getTaiShu()));
+            method_Addcontent(sl_content,sl_state);
 
-
-         if(re_sstype.exactMatch(txt)){
-
-           mode_sstype* sst=new mode_sstype();
-           sst->method_calc(txt);
         }
+
+
 
 
 
@@ -735,7 +737,18 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     }
 
     if(event->modifiers()==Qt::ControlModifier && event->key()==Qt::Key_E){
-        ui->label_7->setFocus();
+        le_guige->clearFocus();
+        le_400->clearFocus();
+        le_600->clearFocus();
+        le_800->clearFocus();
+        le_1000->clearFocus();
+        le_1200->clearFocus();
+        le_fb1_sl->clearFocus();
+        le_fb2_sl->clearFocus();
+        le_fb3_sl->clearFocus();
+        le_fb1_size->clearFocus();
+        le_fb2_size->clearFocus();
+        le_fb3_size->clearFocus();
 
     }
 

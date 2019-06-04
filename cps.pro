@@ -47,8 +47,7 @@ SOURCES += \
     mode_pm.cpp \
     mode_price.cpp \
     mode_pricem.cpp \
-    mode_pricemt.cpp \
-    mode_sstype.cpp
+    mode_pricemt.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -72,8 +71,7 @@ HEADERS += \
     mode_pm.h \
     mode_price.h \
     mode_pricem.h \
-    mode_pricemt.h \
-    mode_sstype.h
+    mode_pricemt.h
 
 FORMS += \
         mainwindow.ui
