@@ -48,6 +48,7 @@ CPS
         Y fb1 size
         U fb2 size
         I fb3 size
+        D set danjia
         1 600 num
         2 800 num
         3 1000 num

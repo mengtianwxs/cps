@@ -176,7 +176,8 @@ void MainWindow::initUI()
     connect(pb_reset,SIGNAL(clicked()),this,SLOT(method_reset()));
     connect(pb_pop,SIGNAL(clicked()),this,SLOT(method_pop()));
 
-    connect(le_guige,SIGNAL(returnPressed()),SLOT(method_enterp()));
+    connect(le_guige,SIGNAL(returnPressed()),SLOT(method_enterGuiGe()));
+     connect(le_dj,SIGNAL(returnPressed()),SLOT(method_enterGuiGe()));
     connect(le_400,SIGNAL(returnPressed()),SLOT(method_enterGuiGe()));
     connect(le_600,SIGNAL(returnPressed()),SLOT(method_enterGuiGe()));
     connect(le_800,SIGNAL(returnPressed()),SLOT(method_enterGuiGe()));
@@ -766,20 +767,26 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         le_fb3_size->setFocus();
     }
 
+    if(event->key()==Qt::Key_D){
+        le_dj->setText("");
+        le_dj->setFocus();
+    }
+
 
     if(event->modifiers()==Qt::ControlModifier && event->key()==Qt::Key_E){
-        le_guige->clearFocus();
-        le_400->clearFocus();
-        le_600->clearFocus();
-        le_800->clearFocus();
-        le_1000->clearFocus();
-        le_1200->clearFocus();
-        le_fb1_sl->clearFocus();
-        le_fb2_sl->clearFocus();
-        le_fb3_sl->clearFocus();
-        le_fb1_size->clearFocus();
-        le_fb2_size->clearFocus();
-        le_fb3_size->clearFocus();
+//        le_guige->clearFocus();
+//        le_400->clearFocus();
+//        le_600->clearFocus();
+//        le_800->clearFocus();
+//        le_1000->clearFocus();
+//        le_1200->clearFocus();
+//        le_fb1_sl->clearFocus();
+//        le_fb2_sl->clearFocus();
+//        le_fb3_sl->clearFocus();
+//        le_fb1_size->clearFocus();
+//        le_fb2_size->clearFocus();
+//        le_fb3_size->clearFocus();
+        this->setFocus();
 
     }
 

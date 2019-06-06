@@ -9,7 +9,7 @@ void mode_pm::method_calc(QStringList sl_jiahao, QMap<QString, QString> map)
 {
 
     initMap(map);
-    qDebug()<<"this is method calc";
+//    qDebug()<<"this is method calc";
 
     //-100*10*12
     QString txt=sl_jiahao.at(0);
@@ -53,7 +53,7 @@ void mode_pm::method_calc(QStringList sl_jiahao, QMap<QString, QString> map)
     sl_content.append(PAI);
 
    sl_content.append("= "+QString::number(SUMP)+"\n");
-    list.append(QString::number(0));
+    list.append(QString::number(SUMP));
 }
 
 
