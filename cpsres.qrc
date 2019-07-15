@@ -2,5 +2,6 @@
     <qresource prefix="/imgs">
         <file>images/20190713102139.png</file>
         <file>images/20190713175341.png</file>
+        <file>images/icon.png</file>
     </qresource>
 </RCC>
