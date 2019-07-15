@@ -6,6 +6,8 @@
 #include "mode_2abcn.h"
 #include "mode_2abcn2pe.h"
 #include "mode_2abcnpe.h"
+#include "mode_42abc2n.h"
+#include "mode_42abc2npe.h"
 #include "mode_4abcn.h"
 #include "mode_4abcnpe.h"
 #include "mode_abc.h"
@@ -21,6 +23,7 @@
 #include "mode_pricemt.h"
 #include "ui_mainwindow.h"
 
+#include <QDesktopWidget>
 #include <QRegExpValidator>
 #include <qtextcodec.h>
 
@@ -29,12 +32,16 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
+    QDesktopWidget* desk=QApplication::desktop();
+    int dw=desk->screen()->width();
+    int dh=desk->screen()->height();
+//    this->resize(850,650);
+    this->setFixedSize(QSize(650,550));
+    this->move((dw-this->width())/2-10,(dh-this->height())/2-10);
+//    qDebug()<<(dw-this->width())/2<<(dh-this->height())/2<<dw<<dh<<this->width()<<this->height();
 
     initNetworkAccessManager();
     initUI();
-
-
 
 }
 
@@ -150,7 +157,7 @@ void MainWindow::initUI()
 
 
     QRegExp regx_guige("([1-3]?\\*?[1-9][0-9][0-9]?\\*[1-9][0-9]?\\+[1-9]?\\*?[1-9][0-9]?[0-9]?\\*[1-9][0-9]?\\+[1-9]?\\*?[1-9][0-9]?[0-9]?\\*([1-9][0-9]?)?)|"
-                       "(4\\*[1-9][0-9][0-9]?\\*[1-9][0-9]?\\+[1-9][0-9]?[0-9]?\\*[1-9][0-9]?)|"
+                       "(4\\*2?\\*?[1-9][0-9][0-9]?\\*[1-9][0-9]?\\+[1-9][0-9]?[0-9]?\\*[1-9][0-9]?)|"
                        "(\\-[1-9][0-9][0-9]?\\*[1-9][0-9]?\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?\\.?[0-9]?[0-9]?[0-9]?)|"
                        "(\\-[1-9][0-9][0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?)|"
                        "(\\-[1-9][0-9][0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?\\.?[0-9]?[0-9]?[0-9]?)|"
@@ -333,6 +340,12 @@ void MainWindow::method_calc()
     QRegExp re_4abcn("4\\*[1-9][0-9][0-9]?\\*[1-9][0-9]?");
     //@16 4*100*10+80*8
     QRegExp re_4abcnpe("4\\*[1-9][0-9][0-9]?\\*[1-9][0-9]?\\+[1-9][0-9][0-9]?\\*[1-9][0-9]?");
+
+    //@15-1 4*100*10
+    QRegExp re_42abc2n("4\\*2\\*[1-9][0-9][0-9]?\\*[1-9][0-9]?");
+    //@16-1 4*100*10+80*8
+    QRegExp re_42abc2npe("4\\*2\\*[1-9][0-9][0-9]?\\*[1-9][0-9]?\\+[1-9][0-9][0-9]?\\*[1-9][0-9]?");
+
     //@17  pm         100*10*12  //p: 100*10 m:12 p代表排的规格，m代表数量
     QRegExp re_pm("\\-[1-9][0-9][0-9]?\\*[1-9][0-9]?\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?\\.?[0-9]?[0-9]?[0-9]?");
 
@@ -519,6 +532,19 @@ void MainWindow::method_calc()
 
 
         }
+
+
+        //@@15-1 4*2*100*10
+        if(re_42abc2n.exactMatch(txt)){
+            mabc=new mode_42abc2n();
+        }
+
+        //@@16-1 4*2*100*10+80*8
+        if(re_42abc2npe.exactMatch(txt)){
+            mabc=new mode_42abc2npe();
+        }
+
+
 
     }//ggd_bool end
     //@  17------------------------------------------------------------
