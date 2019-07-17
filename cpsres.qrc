@@ -1,7 +1,6 @@
 <RCC>
     <qresource prefix="/imgs">
-        <file>images/20190713102139.png</file>
-        <file>images/20190713175341.png</file>
         <file>images/cpsico.ico</file>
+        <file>images/list.png</file>
     </qresource>
 </RCC>

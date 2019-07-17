@@ -72,6 +72,8 @@ private:
     QStringList sl_content;
     QStringList sl_state;
 
+    int counter=0;
+
     //配电柜的数量
     int s400=0;
     int s600=0;
@@ -108,6 +110,8 @@ protected:
     void initNetworkAccessManager();
     void initUI();
     void method_Addcontent(QStringList sl,QStringList sl_state);
+    void method_counter();
+    void method_counterreset();
 
 
 

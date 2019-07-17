@@ -66,7 +66,7 @@ void MainWindow::initNetworkAccessManager()
 
 void MainWindow::initUI()
 {
-    this->setWindowTitle("cps     made by mengtianwxs");
+    this->setWindowTitle("cps plus power by mengtianwxs");
     le_guige=ui->le_pai_guige;
 
     pb_calc=ui->pb_calc;
@@ -209,6 +209,20 @@ void MainWindow::method_Addcontent(QStringList sl_content,QStringList sl_state)
 
 
 
+}
+
+void MainWindow::method_counter()
+{
+    counter=counter+1;
+    te_content->append("counter ##########>> "+QString::number(counter)+"\n");
+
+
+}
+
+void MainWindow::method_counterreset()
+{
+    counter=0;
+//    te_content->append("counter ##########>> "+QString::number(counter));
 }
 
 
@@ -635,7 +649,7 @@ void MainWindow::method_calc()
              double lastsum=0;
              lastsum=sum*repeatnum;
 
-             mabc->sl_content.append("-s"+QString::number(gtnum)+"("+listdata.join(",")+")*"+QString::number(repeatnum));
+             mabc->sl_content.append("-s "+QString::number(gtnum)+" ( "+listdata.join(",")+" ) * "+QString::number(repeatnum));
              mabc->sl_status.append("-sa*b segment plus MODE | 分支排");
              mabc->sl_content.append("= "+QString::number(lastsum)+"\n");
              mabc->list.append(QString::number(lastsum));
@@ -658,8 +672,11 @@ void MainWindow::method_calc()
         list.append(mabc->getList());
         sl_taishu.append(QString::number(mabc->getTaiShu()));
         method_Addcontent(sl_content,sl_state);
+        method_counter();
 
     }
+
+
 
 }//end
 
@@ -731,6 +748,10 @@ void MainWindow::method_sumadd()
         te_content->append("sum ( "+list.join(",")+" )");
         te_content->append("sum ==========>> "+QString::number(sum)+" Total "+QString::number(TotalTaiShu)+" 台"+"\n");
         TotalTaiShu=0;
+
+        method_counter();
+
+
     }
 }
 
@@ -755,8 +776,9 @@ void MainWindow::method_reset()
         sl_taishu.clear();
     }
     method_clear();
-
+method_counterreset();
     le_guige->setFocus();
+
 }
 
 void MainWindow::method_enterGuiGe()
@@ -766,6 +788,7 @@ void MainWindow::method_enterGuiGe()
 
 
     ui->cb_tong->setFocus();
+//    method_counter();
 
 }
 
@@ -792,6 +815,12 @@ void MainWindow::method_pop()
     if(!sl_taishu.isEmpty()){
         sl_taishu.pop_back();
     }
+
+    if(counter>0){
+    counter--;
+    te_content->append("counter ##########>> "+QString::number(counter));
+    }
+
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
@@ -887,6 +916,37 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
     }
 
+    if(event->modifiers()==Qt::ControlModifier && event->key()==Qt::Key_M){
+
+        le_guige->setText("100*10");
+//        le_guige->setFocus();
+
+
+    }
+    if(event->modifiers()==Qt::ControlModifier && event->key()==Qt::Key_N){
+
+        le_guige->setText("80*8");
+//        le_guige->setFocus();
+
+
+    }
+    if(QApplication::keyboardModifiers()==Qt::ShiftModifier and event->key()==Qt::Key_M){
+
+        le_guige->setText(le_guige->text()+"100*10");
+//        le_guige->setFocus();
+//        qDebug()<<"shift";
+
+
+    }
+    if(QApplication::keyboardModifiers()==Qt::ShiftModifier && event->key()==Qt::Key_N){
+
+        le_guige->setText(le_guige->text()+"80*8");
+//        le_guige->setFocus();
+
+
+    }
+
+
 
 
     if(event->key()==Qt::Key_P){
@@ -903,7 +963,14 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         le_guige->setText("-");
         le_guige->setFocus();
     }
+    if(event->key()==Qt::Key_A){
+
+        le_guige->setFocus();
+    }
+
 
 }
+
+
 
 
