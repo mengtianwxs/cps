@@ -5,10 +5,10 @@
 
 
 
-class mode_pricemt : public mode_base
+class mode_paimt : public mode_base
 {
 public:
-    mode_pricemt();
+    mode_paimt();
     void method_calc(QStringList sl_jiahao,QMap<QString,QString> map);
 };
 

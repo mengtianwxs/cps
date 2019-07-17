@@ -47,9 +47,11 @@ SOURCES += \
     mode_pm.cpp \
     mode_price.cpp \
     mode_pricem.cpp \
-    mode_pricemt.cpp \
     mode_42abc2n.cpp \
-    mode_42abc2npe.cpp
+    mode_42abc2npe.cpp \
+    mode_paimt.cpp \
+    mode_prepeat.cpp \
+    mode_segmentplus.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -73,9 +75,11 @@ HEADERS += \
     mode_pm.h \
     mode_price.h \
     mode_pricem.h \
-    mode_pricemt.h \
     mode_42abc2n.h \
-    mode_42abc2npe.h
+    mode_42abc2npe.h \
+    mode_paimt.h \
+    mode_prepeat.h \
+    mode_segmentplus.h
 
 FORMS += \
         mainwindow.ui
@@ -88,7 +92,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 DISTFILES += \
     readme.md
 
-    images/preview.png
+
 
 RESOURCES += \
     cpsres.qrc

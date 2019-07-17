@@ -20,8 +20,10 @@
 #include "mode_pm.h"
 #include "mode_price.h"
 #include "mode_pricem.h"
-#include "mode_pricemt.h"
+#include "mode_paimt.h"
 #include "ui_mainwindow.h"
+#include "mode_prepeat.h"
+#include "mode_segmentplus.h"
 
 #include <QDesktopWidget>
 #include <QRegExpValidator>
@@ -162,6 +164,7 @@ void MainWindow::initUI()
                        "(\\-[1-9][0-9][0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?)|"
                        "(\\-[1-9][0-9][0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?\\.?[0-9]?[0-9]?[0-9]?)|"
                        "(\\-[1-9][0-9][0-9]?\\*[1-9][0-9]?\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?\\.?[0-9]?[0-9]?[0-9]?\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?)|"
+                       "(\\-\\-)|(\\-s[1-9][0-9]?[0-9]?[0-9]?[0-9]?\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?)"
                        );
 
     QValidator*  vali_gg=new QRegExpValidator(regx_guige,this);
@@ -354,8 +357,14 @@ void MainWindow::method_calc()
 
     //    @19  price*m    p800*10
     QRegExp re_pricem("\\-[1-9][0-9][0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?\\.?[0-9]?[0-9]?[0-9]?");
-    //    @20 price*m*t p代表规格，m代表数量 ,t代表台数
-    QRegExp re_pricemt("\\-[1-9][0-9][0-9]?\\*[1-9][0-9]?\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?\\.?[0-9]?[0-9]?[0-9]?\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?");
+    //    @20 pai*m*t p代表规格，m代表数量 ,t代表台数
+    QRegExp re_paimt("\\-[1-9][0-9][0-9]?\\*[1-9][0-9]?\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?\\.?[0-9]?[0-9]?[0-9]?\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?");
+
+    //@21  -- 重复上一次的价格  "(\\-\\-)|(\\-s[1-9][0-9]?[0-9]?[0-9]?[0-9]?\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?)"
+    QRegExp re_cf("\\-\\-");
+
+   // @22  -s4*4  上一段4台计算结果的值*4 段相加*次数
+    QRegExp re_splus("\\-s[1-9][0-9]?[0-9]?[0-9]?[0-9]?\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?");
 
 
     (le_400->text()=="")?s400=0:s400=le_400->text().toInt();
@@ -573,9 +582,71 @@ void MainWindow::method_calc()
 
     //@  20------------------------------------------------------------
     //@20  pmt  abc mode        p100*10*12*10  //p: 100*10 m:12 p代表排的规格，m代表数量 ,t代表台数
-    if(re_pricemt.exactMatch(txt))
+    if(re_paimt.exactMatch(txt))
     {
-        mabc=new mode_pricemt();
+        mabc=new mode_paimt();
+
+    }
+
+    //@21--
+    if(re_cf.exactMatch(txt)){
+      mabc=new mode_prepeat();
+      if(list.count()>0){
+          //              qDebug()<<"repeat"<<list;
+          QString lastprice=list.last();
+          mabc->sl_content.append("- "+lastprice);
+          mabc->sl_status.append("-- price repeat MODE | 分支排");
+          mabc->sl_content.append("= "+lastprice+"\n");
+          mabc->list.append(lastprice);
+
+      }
+
+
+    }
+
+    //@22 -s4*4
+    if(re_splus.exactMatch(txt)){
+
+        mabc=new mode_segmentplus();
+        if(list.count()>0){
+            QString txt=sl_jiahao.at(0);
+        //    qDebug()<<txt;
+            int xhindex=txt.lastIndexOf("*");
+
+        //    QString psabc=txt.mid(1,-1);
+            int gtnum=txt.mid(2,xhindex-2).toInt();
+            if(gtnum<list.count()){
+
+             int repeatnum=txt.mid(xhindex+1).toInt();
+
+             QStringList listdata;
+             int totallist=list.count();
+
+             for(int i=0;i<gtnum;i++){
+                 listdata.append(list.at(totallist-gtnum+i));
+             }
+//             qDebug()<<listdata;
+             double sum=0;
+
+             for(int n=0;n<listdata.count();n++){
+                 sum=sum+listdata.at(n).toDouble();
+             }
+
+             double lastsum=0;
+             lastsum=sum*repeatnum;
+
+             mabc->sl_content.append("-s"+QString::number(gtnum)+"("+listdata.join(",")+")*"+QString::number(repeatnum));
+             mabc->sl_status.append("-sa*b segment plus MODE | 分支排");
+             mabc->sl_content.append("= "+QString::number(lastsum)+"\n");
+             mabc->list.append(QString::number(lastsum));
+
+
+
+            }
+
+
+        }
+
 
     }
 
@@ -649,12 +720,12 @@ void MainWindow::method_sumadd()
 
         }
 
-        qDebug()<<"sltaishu="<<sl_taishu.length();
+//        qDebug()<<"sltaishu="<<sl_taishu.length();
 
         for(int d=0;d<sl_taishu.length();d++)
         {
             TotalTaiShu=TotalTaiShu+sl_taishu.at(d).toInt();
-            qDebug()<<TotalTaiShu<<"="<<sl_taishu;
+//            qDebug()<<TotalTaiShu<<"="<<sl_taishu;
         }
 
         te_content->append("sum ( "+list.join(",")+" )");

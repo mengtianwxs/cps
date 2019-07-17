@@ -20,6 +20,8 @@ mode_base::mode_base()
 QStringList mode_base::getList()
 {
     return list;
+
+
 }
 
 QStringList mode_base::getSLContent()

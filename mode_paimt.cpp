@@ -1,11 +1,11 @@
-#include "mode_pricemt.h"
+#include "mode_paimt.h"
 
-mode_pricemt::mode_pricemt()
+mode_paimt::mode_paimt()
 {
 
 }
 
-void mode_pricemt::method_calc(QStringList sl_jiahao, QMap<QString, QString> map)
+void mode_paimt::method_calc(QStringList sl_jiahao, QMap<QString, QString> map)
 {
 
     initMap(map);

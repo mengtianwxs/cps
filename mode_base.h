@@ -26,9 +26,10 @@ public:
     QStringList sl_xinghao;
     QString pabc_guige="";
 
-
     QString state="";// tong 0 lv 1
     double dj=0;
+    int gtnum=0;
+    int repeatnum=0;
 
    int t400_num=0;
    int t600_num=0;
