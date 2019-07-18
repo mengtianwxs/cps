@@ -746,7 +746,7 @@ void MainWindow::method_sumadd()
         }
 
         te_content->append("sum ( "+list.join(",")+" )");
-        te_content->append("sum ==========>> "+QString::number(sum)+" Total "+QString::number(TotalTaiShu)+" 台"+"\n");
+        te_content->append("sum ==========>> "+QString::number(sum)+" Total "+QString::number(TotalTaiShu)+" 台 "+QString::number(len)+" 次\n");
         TotalTaiShu=0;
 
         method_counter();
