@@ -623,13 +623,13 @@ void MainWindow::method_calc()
 
         mabc=new mode_segmentplus();
         if(list.count()>0){
-            QString txt=sl_jiahao.at(0);
+//            QString txt=sl_jiahao.at(0);
         //    qDebug()<<txt;
             int xhindex=txt.lastIndexOf("*");
 
         //    QString psabc=txt.mid(1,-1);
             int gtnum=txt.mid(2,xhindex-2).toInt();
-            if(gtnum<list.count()){
+            if(gtnum<=list.count()){
 
              int repeatnum=txt.mid(xhindex+1).toInt();
 
@@ -651,7 +651,7 @@ void MainWindow::method_calc()
 
              mabc->sl_content.append("-s "+QString::number(gtnum)+" ( "+listdata.join(",")+" ) * "+QString::number(repeatnum));
              mabc->sl_status.append("-sa*b segment plus MODE | 分支排");
-             mabc->sl_content.append("= "+QString::number(lastsum)+"\n");
+             mabc->sl_content.append("segment plus= "+QString::number(lastsum)+" # "+QString::number(gtnum)+" 面 "+QString::number(repeatnum)+" 段\n");
              mabc->list.append(QString::number(lastsum));
 
 
