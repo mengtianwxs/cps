@@ -2,5 +2,6 @@
     <qresource prefix="/imgs">
         <file>images/cpsico.ico</file>
         <file>images/list.png</file>
+        <file>images/bg.jpg</file>
     </qresource>
 </RCC>

@@ -55,6 +55,10 @@ private:
     QLineEdit* le_fb2_sl;
     QLineEdit* le_fb3_sl;
 
+    QStringList list_guige;
+    int numListGG=0;
+
+
 
 
      QString pnum;
@@ -102,6 +106,8 @@ private:
     int TotalTaiShu=0;
 
     mode_base* mabc=NULL;
+
+    int startlist=0;
 
 
 

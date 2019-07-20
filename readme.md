@@ -41,6 +41,7 @@ CPS
         you can use tab key to lose focus first
 
         - again write **
+        [ repeat display guige content
         b clear **
         c sum **
         enter calc **

@@ -676,7 +676,12 @@ void MainWindow::method_calc()
 
     }
 
+    QString curentStr=le_guige->text();
+    if(list_guige.contains(curentStr)==false){
+       list_guige.append(le_guige->text());
 
+
+    }
 
 }//end
 
@@ -752,6 +757,7 @@ void MainWindow::method_sumadd()
         method_counter();
 
 
+
     }
 }
 
@@ -776,14 +782,25 @@ void MainWindow::method_reset()
         sl_taishu.clear();
     }
     method_clear();
-method_counterreset();
+    method_counterreset();
     le_guige->setFocus();
+    list_guige.clear();
+    startlist=0;
 
 }
 
 void MainWindow::method_enterGuiGe()
 {
     method_calc();
+
+
+    QString curentStr=le_guige->text();
+    if(list_guige.contains(curentStr)==false){
+       list_guige.append(le_guige->text());
+
+
+    }
+
 
 
 
@@ -825,7 +842,7 @@ void MainWindow::method_pop()
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
-    //    qDebug()<<event->key();
+//        qDebug()<<event->key();
 
     if(event->key()==Qt::Key_C)
     {
@@ -933,20 +950,15 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     if(QApplication::keyboardModifiers()==Qt::ShiftModifier and event->key()==Qt::Key_M){
 
         le_guige->setText(le_guige->text()+"100*10");
-//        le_guige->setFocus();
-//        qDebug()<<"shift";
 
 
     }
     if(QApplication::keyboardModifiers()==Qt::ShiftModifier && event->key()==Qt::Key_N){
 
         le_guige->setText(le_guige->text()+"80*8");
-//        le_guige->setFocus();
 
 
     }
-
-
 
 
     if(event->key()==Qt::Key_P){
@@ -967,6 +979,24 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
         le_guige->setFocus();
     }
+
+    //切换状态规格文件 [
+    if(event->key()==91){
+
+        if(list_guige.size()>0){
+//      qDebug()<<"startlist"<<startlist;
+       le_guige->setText(list_guige.at(startlist));
+        if(startlist<list_guige.count()-1){
+            startlist=startlist+1;
+        }else{
+            startlist=0;
+        }
+}
+
+        }
+
+
+
 
 
 }
