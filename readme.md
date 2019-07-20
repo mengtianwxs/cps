@@ -42,6 +42,7 @@ CPS
 
         - again write **
         [ repeat display guige content
+        a focus append guige content
         b clear **
         c sum **
         enter calc **
