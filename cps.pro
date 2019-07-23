@@ -7,6 +7,7 @@
 QT       += core gui
 QT += network
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+RC_ICONS=images/cpsico.ico
 
 TARGET = cps
 TEMPLATE = app
@@ -51,7 +52,8 @@ SOURCES += \
     mode_42abc2npe.cpp \
     mode_paimt.cpp \
     mode_prepeat.cpp \
-    mode_segmentplus.cpp
+    mode_segmentplus.cpp \
+    mode_selectplus.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -79,7 +81,8 @@ HEADERS += \
     mode_42abc2npe.h \
     mode_paimt.h \
     mode_prepeat.h \
-    mode_segmentplus.h
+    mode_segmentplus.h \
+    mode_selectplus.h
 
 FORMS += \
         mainwindow.ui

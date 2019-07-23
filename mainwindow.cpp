@@ -24,6 +24,7 @@
 #include "ui_mainwindow.h"
 #include "mode_prepeat.h"
 #include "mode_segmentplus.h"
+#include "mode_selectplus.h"
 
 #include <QDesktopWidget>
 #include <QRegExpValidator>
@@ -164,7 +165,8 @@ void MainWindow::initUI()
                        "(\\-[1-9][0-9][0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?)|"
                        "(\\-[1-9][0-9][0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?\\.?[0-9]?[0-9]?[0-9]?)|"
                        "(\\-[1-9][0-9][0-9]?\\*[1-9][0-9]?\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?\\.?[0-9]?[0-9]?[0-9]?\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?)|"
-                       "(\\-\\-)|(\\-s[1-9][0-9]?[0-9]?[0-9]?[0-9]?\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?)"
+                       "(\\-\\-)|(\\-s[1-9][0-9]?[0-9]?[0-9]?[0-9]?\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?)|"
+                        "(\\-s\\[([1-9]{1,50}\\,?){1,50}\\]\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?)"
                        );
 
     QValidator*  vali_gg=new QRegExpValidator(regx_guige,this);
@@ -379,6 +381,9 @@ void MainWindow::method_calc()
 
    // @22  -s4*4  上一段4台计算结果的值*4 段相加*次数
     QRegExp re_splus("\\-s[1-9][0-9]?[0-9]?[0-9]?[0-9]?\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?");
+
+    //@23 -s[1,2,4]*4 取第1，2，4项的值相加并*4 selectplus
+    QRegExp re_selectplus("\\-s\\[([1-9]{1,50}\\,?){1,50}\\]\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?");
 
 
     (le_400->text()=="")?s400=0:s400=le_400->text().toInt();
@@ -663,6 +668,46 @@ void MainWindow::method_calc()
 
 
     }
+
+    //@23 -s[1,2,4]*4
+    if(re_selectplus.exactMatch(txt)){
+
+      mabc=new mode_selectplus();
+      if(list.count()>0){
+
+
+        int xinghaoindex=txt.lastIndexOf("*");
+        int cishu=txt.mid(xinghaoindex+1).toInt();
+        int gtindex_start=txt.indexOf("[");
+        int gtindex_end=txt.indexOf("]");
+        QString itemindex=txt.mid(gtindex_start+1,gtindex_end-gtindex_start-1);
+//        qDebug()<<list<<xinghaoindex<<cishu<<gtindex_start<<gtindex_end<<itemindex;
+        QStringList itemlist=itemindex.split(",");
+        if(itemlist.count()>0){
+            int lastvalue=0;
+            QStringListIterator sitr(itemlist);
+            while (sitr.hasNext()) {
+                lastvalue=lastvalue+list.at(sitr.next().toInt()-1).toInt();
+            }
+
+            if(cishu>0){
+                 int totalvalue=lastvalue*cishu;
+                 mabc->sl_content.append(">>>> "+list.join(','));
+                 mabc->sl_content.append("-s ["+itemindex + "]*"+QString::number(cishu));
+                 mabc->sl_status.append("-s[a,b,c]*num select plus MODE | 分支排");
+                 mabc->sl_content.append("select plus= "+QString::number(totalvalue)+" # "+QString::number(itemlist.count())+" 面 "+QString::number(cishu)+" 段\n");
+                 mabc->list.append(QString::number(totalvalue));
+            }
+
+
+        }
+
+
+      }
+
+
+    }
+
 
     //判断mabc是否实例化，如果没实例化就不执行
     if(mabc!=NULL){
