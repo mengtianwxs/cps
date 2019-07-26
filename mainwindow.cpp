@@ -281,12 +281,12 @@ void MainWindow::method_g()
 
         }
 
-        qDebug()<<"sltaishu="<<sl_taishu.length();
+//        qDebug()<<"sltaishu="<<sl_taishu.length();
 
         for(int d=0;d<sl_taishu.length();d++)
         {
             TotalTaiShu=TotalTaiShu+sl_taishu.at(d).toInt();
-            qDebug()<<TotalTaiShu<<"="<<sl_taishu;
+//            qDebug()<<TotalTaiShu<<"="<<sl_taishu;
         }
 
         te_content->append("segment sum ( "+list.join(",")+" )");
@@ -855,10 +855,10 @@ void MainWindow::method_sumadd()
         }
 
         te_content->append("sum ( "+list.join(",")+" )");
-        te_content->append("sum ==========>> "+QString::number(sum)+" Total "+QString::number(TotalTaiShu)+" 台 "+QString::number(len)+" 次\n");
+        te_content->append("sum ==========>> ∑ "+QString::number(sum)+" Total "+QString::number(TotalTaiShu)+" 台 "+QString::number(len)+" 次\n");
         TotalTaiShu=0;
 
-        method_counter();
+//        method_counter();
 
 
 

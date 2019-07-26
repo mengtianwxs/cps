@@ -130,7 +130,7 @@ private slots:
     void method_cbt(int);
     void method_cbl(int);
     void method_textedit_cursormove();
-    void method_sumadd();
+    void method_sumadd(); //累加
     void method_reset();
     void method_enterGuiGe();
     void method_enterp();
@@ -140,7 +140,7 @@ private slots:
     void method_tongreplyFinished(QNetworkReply*);
     //获取铝排的网上价格
      void method_lvreplyFinished(QNetworkReply*);
-     void method_g();
+     void method_g(); //段加
 
 
 
