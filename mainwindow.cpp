@@ -224,7 +224,25 @@ void MainWindow::method_counter()
 void MainWindow::method_counterreset()
 {
     counter=0;
-//    te_content->append("counter ##########>> "+QString::number(counter));
+    //    te_content->append("counter ##########>> "+QString::number(counter));
+}
+
+void MainWindow::method_createLabelforListinfo()
+{
+
+//    QLabel* lal_listinfo=new QLabel(this);
+    if(list.count()>0){
+//        for(int i=0;i<list.count();i++){
+
+
+
+//        lal_listinfo->setText(QString::number(list.at(i).toInt()));
+//        lal_listinfo->setText(lal_listinfo->text()+"\n");
+
+//         }
+         ui->statusBar->showMessage(list.join(","));
+    }
+
 }
 
 
@@ -695,13 +713,13 @@ void MainWindow::method_calc()
 
 //        qDebug()<<"maxindexinlist "<<maxIndexList<<itemindex;
 
-        int lastvalue=0;
+
         if(itemlist.count()==1){
           if(itemindex.toInt()>0 and itemindex.toInt()<=maxIndexList and cishu>0){
 
-              lastvalue=list.at(itemindex.toInt()-1).toInt();
+              lastvalued=list.at(itemindex.toInt()-1).toInt();
 
-              int totalvalue=lastvalue*cishu;
+              double totalvalue=lastvalued*cishu;
               mabc->sl_content.append(">>>> "+list.join(',')+" >>>> "+QString::number(list.count()));
               mabc->sl_content.append("-s ["+itemindex + "]*"+QString::number(cishu));
               mabc->sl_status.append("-s[a,b,c]*num select plus MODE | 分支排");
@@ -724,14 +742,17 @@ void MainWindow::method_calc()
                 }
 
             }
-            int lastvalue=0;
-            if(isItem and cishu>0){
-                for(int n=0;n<itemlist.count();n++){
 
-                    lastvalue=lastvalue+list.at(itemlist.at(n).toInt()-1).toInt();
+            if(isItem and cishu>0){
+                qDebug()<<"run here";
+
+                for(int n=0;n<itemlist.count();n++){
+                    double subvalue=list.at(itemlist.at(n).toInt()-1).toDouble();
+//                     qDebug()<<"sub"<<subvalue;
+                    lastvalue=lastvalue+subvalue;
 
                 }
-                int totalvalue=lastvalue*cishu;
+                double totalvalue=lastvalue*cishu;
                 mabc->sl_content.append(">>>> "+list.join(',')+" >>>> "+QString::number(list.count()));
                 mabc->sl_content.append("-s ["+itemindex + "]*"+QString::number(cishu));
                 mabc->sl_status.append("-s[a,b,c]*num select plus MODE | 分支排");
@@ -740,38 +761,7 @@ void MainWindow::method_calc()
 
 
             }
-
         }
-
-
-
-
-
-
-/*
-
-        if(itemlist.count()>0 and sumitem>0 and isItem){
-            int lastvalue=0;
-            QStringListIterator sitr(itemlist);
-            while (sitr.hasNext()) {
-                lastvalue=lastvalue+list.at(sitr.next().toInt()-1).toInt();
-            }
-
-            if(cishu>0){
-                 int totalvalue=lastvalue*cishu;
-                 mabc->sl_content.append(">>>> "+list.join(',')+" >>>> "+QString::number(list.count()));
-                 mabc->sl_content.append("-s ["+itemindex + "]*"+QString::number(cishu));
-                 mabc->sl_status.append("-s[a,b,c]*num select plus MODE | 分支排");
-                 mabc->sl_content.append("select plus= "+QString::number(totalvalue)+" # "+QString::number(itemlist.count())+" 面 "+QString::number(cishu)+" 段\n");
-                 mabc->list.append(QString::number(totalvalue));
-            }
-
-
-
-        }
-        */
-
-
       }
 
 
@@ -900,6 +890,8 @@ void MainWindow::method_reset()
     le_guige->setFocus();
     list_guige.clear();
     startlist=0;
+    lastvalue=0;
+    lastvalue=0;
 
 }
 
@@ -1108,6 +1100,11 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 }
 
         }
+
+    if(event->key()==Qt::Key_F1){
+        qDebug()<<"f1";
+        method_createLabelforListinfo();
+    }
 
 
 
