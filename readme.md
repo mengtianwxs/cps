@@ -64,6 +64,7 @@ CPS
         6 fb1 num
         7 fb2 num
         8 fb3 num
+        F1 look at list in statebar
 
 
 

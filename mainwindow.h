@@ -77,8 +77,8 @@ private:
     QStringList sl_state;
 
     int counter=0;
-    double lastvalue=0;
-    double lastvalued=0;
+
+
 
     //配电柜的数量
     int s400=0;

@@ -715,9 +715,9 @@ void MainWindow::method_calc()
 
 
         if(itemlist.count()==1){
-          if(itemindex.toInt()>0 and itemindex.toInt()<=maxIndexList and cishu>0){
-
-              lastvalued=list.at(itemindex.toInt()-1).toInt();
+          if((itemindex.toInt()-1)>=0 and (itemindex.toInt()-1)<=maxIndexList and cishu>0){
+qDebug()<<"in here";
+              double lastvalued=list.at(itemindex.toInt()-1).toDouble();
 
               double totalvalue=lastvalued*cishu;
               mabc->sl_content.append(">>>> "+list.join(',')+" >>>> "+QString::number(list.count()));
@@ -745,7 +745,7 @@ void MainWindow::method_calc()
 
             if(isItem and cishu>0){
                 qDebug()<<"run here";
-
+                double lastvalue=0;
                 for(int n=0;n<itemlist.count();n++){
                     double subvalue=list.at(itemlist.at(n).toInt()-1).toDouble();
 //                     qDebug()<<"sub"<<subvalue;
@@ -890,8 +890,7 @@ void MainWindow::method_reset()
     le_guige->setFocus();
     list_guige.clear();
     startlist=0;
-    lastvalue=0;
-    lastvalue=0;
+
 
 }
 
