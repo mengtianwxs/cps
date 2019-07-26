@@ -166,7 +166,7 @@ void MainWindow::initUI()
                        "(\\-[1-9][0-9][0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?\\.?[0-9]?[0-9]?[0-9]?)|"
                        "(\\-[1-9][0-9][0-9]?\\*[1-9][0-9]?\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?\\.?[0-9]?[0-9]?[0-9]?\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?)|"
                        "(\\-\\-)|(\\-s[1-9][0-9]?[0-9]?[0-9]?[0-9]?\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?)|"
-                        "(\\-s\\[([1-9]{1,50}\\,?){1,50}\\]\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?)"
+                        "(\\-s\\[([0-9]{,50}\\,?){,50}\\]\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?)"
                        );
 
     QValidator*  vali_gg=new QRegExpValidator(regx_guige,this);
@@ -383,7 +383,7 @@ void MainWindow::method_calc()
     QRegExp re_splus("\\-s[1-9][0-9]?[0-9]?[0-9]?[0-9]?\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?");
 
     //@23 -s[1,2,4]*4 取第1，2，4项的值相加并*4 selectplus
-    QRegExp re_selectplus("\\-s\\[([1-9]{1,50}\\,?){1,50}\\]\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?");
+    QRegExp re_selectplus("\\-s\\[([0-9]{,50}\\,?){,50}\\]\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?");
 
 
     (le_400->text()=="")?s400=0:s400=le_400->text().toInt();
@@ -673,6 +673,10 @@ void MainWindow::method_calc()
     if(re_selectplus.exactMatch(txt)){
 
       mabc=new mode_selectplus();
+      //@1 需要判断文本中给出的下标是否越界
+      //@2 需要判断是否数据中的数组存在?
+
+      //首先需要判断是否不为空list列表中
       if(list.count()>0){
 
 
@@ -682,8 +686,71 @@ void MainWindow::method_calc()
         int gtindex_end=txt.indexOf("]");
         QString itemindex=txt.mid(gtindex_start+1,gtindex_end-gtindex_start-1);
 //        qDebug()<<list<<xinghaoindex<<cishu<<gtindex_start<<gtindex_end<<itemindex;
+        //得到需要操作的索引集合
         QStringList itemlist=itemindex.split(",");
-        if(itemlist.count()>0){
+
+
+        //list中最大的索引值
+        int maxIndexList=list.count()-1;
+
+//        qDebug()<<"maxindexinlist "<<maxIndexList<<itemindex;
+
+        int lastvalue=0;
+        if(itemlist.count()==1){
+          if(itemindex.toInt()>0 and itemindex.toInt()<=maxIndexList and cishu>0){
+
+              lastvalue=list.at(itemindex.toInt()-1).toInt();
+
+              int totalvalue=lastvalue*cishu;
+              mabc->sl_content.append(">>>> "+list.join(',')+" >>>> "+QString::number(list.count()));
+              mabc->sl_content.append("-s ["+itemindex + "]*"+QString::number(cishu));
+              mabc->sl_status.append("-s[a,b,c]*num select plus MODE | 分支排");
+              mabc->sl_content.append("select plus= "+QString::number(totalvalue)+" # "+QString::number(itemlist.count())+" 面 "+QString::number(cishu)+" 段\n");
+              mabc->list.append(QString::number(totalvalue));
+          }
+        }
+
+        if(itemlist.count()>1){
+
+             //检索索引集合中的索引范围是否真实存在于list中
+              bool isItem=true;
+            for(int i=0;i<itemlist.count();i++){
+//                qDebug()<<itemlist.at(i).toInt();
+
+                if((itemlist.at(i).toInt()-1)>maxIndexList or (itemlist.at(i).toInt()-1)<0){
+//                      qDebug()<<"da xiao";
+                    isItem=false;
+                    break;
+                }
+
+            }
+            int lastvalue=0;
+            if(isItem and cishu>0){
+                for(int n=0;n<itemlist.count();n++){
+
+                    lastvalue=lastvalue+list.at(itemlist.at(n).toInt()-1).toInt();
+
+                }
+                int totalvalue=lastvalue*cishu;
+                mabc->sl_content.append(">>>> "+list.join(',')+" >>>> "+QString::number(list.count()));
+                mabc->sl_content.append("-s ["+itemindex + "]*"+QString::number(cishu));
+                mabc->sl_status.append("-s[a,b,c]*num select plus MODE | 分支排");
+                mabc->sl_content.append("select plus= "+QString::number(totalvalue)+" # "+QString::number(itemlist.count())+" 面 "+QString::number(cishu)+" 段\n");
+                mabc->list.append(QString::number(totalvalue));
+
+
+            }
+
+        }
+
+
+
+
+
+
+/*
+
+        if(itemlist.count()>0 and sumitem>0 and isItem){
             int lastvalue=0;
             QStringListIterator sitr(itemlist);
             while (sitr.hasNext()) {
@@ -692,7 +759,7 @@ void MainWindow::method_calc()
 
             if(cishu>0){
                  int totalvalue=lastvalue*cishu;
-                 mabc->sl_content.append(">>>> "+list.join(','));
+                 mabc->sl_content.append(">>>> "+list.join(',')+" >>>> "+QString::number(list.count()));
                  mabc->sl_content.append("-s ["+itemindex + "]*"+QString::number(cishu));
                  mabc->sl_status.append("-s[a,b,c]*num select plus MODE | 分支排");
                  mabc->sl_content.append("select plus= "+QString::number(totalvalue)+" # "+QString::number(itemlist.count())+" 面 "+QString::number(cishu)+" 段\n");
@@ -700,7 +767,9 @@ void MainWindow::method_calc()
             }
 
 
+
         }
+        */
 
 
       }
