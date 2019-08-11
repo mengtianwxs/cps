@@ -117,6 +117,7 @@ private:
      QStringList listhe;
      int hecouter=0;
      QStringList list_heval;
+      int cout=0;
 
 
 

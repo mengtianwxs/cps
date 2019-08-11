@@ -171,7 +171,7 @@ void MainWindow::initUI()
                        "(\\-[1-9][0-9][0-9]?\\*[1-9][0-9]?\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?\\.?[0-9]?[0-9]?[0-9]?\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?)|"
                        "(\\-\\-)|(\\-s[1-9][0-9]?[0-9]?[0-9]?[0-9]?\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?)|"
                         "(\\-s\\[([0-9]{,50}\\,?){,50}\\]\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?)|"
-                       "([\\-|\\+]m[1-9])"
+                       "(\\-m[2-9])|(\\+m[1-9])"
                        );
 
     QValidator*  vali_gg=new QRegExpValidator(regx_guige,this);
@@ -821,10 +821,10 @@ void MainWindow::method_calc()
 
     }
 
-     //@24 -m[1-9] need use with F6 key 这个模式只记录不参与计算
+     //@24 -m[2-9] need use with F6 key 这个模式只记录不参与计算
     if(re_merge.exactMatch(txt)){
-//        mabc=new mode_merge();
-        QStringList list_merge;
+        mabc=new mode_merge();
+//        QStringList list_merge;
         if(list.count()>=2){
 
 //            qDebug()<<list;
@@ -832,8 +832,9 @@ void MainWindow::method_calc()
 
 //            qDebug()<<"thisisnum"<<num;
 
-            int cout=txt.mid(2).toInt();
+            cout=txt.mid(2).toInt();
             int sumlist=list.count();
+//            qDebug()<<"cout"<<cout;
 
             if(cout>=2 and cout<=9 and cout<=sumlist){
                 double he=0;
@@ -848,6 +849,8 @@ void MainWindow::method_calc()
                  list_heval.append(QString::number(he));
 
                  this->statusBar()->showMessage("merge mode "+QString::number(he));
+//                 mabc->sl_status.append("-m");
+//                 mabc->sl_content.append(QString::asprintf("+m%d=%.2f\n",num+1,val));
 
 
             }
