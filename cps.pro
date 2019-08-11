@@ -53,7 +53,9 @@ SOURCES += \
     mode_paimt.cpp \
     mode_prepeat.cpp \
     mode_segmentplus.cpp \
-    mode_selectplus.cpp
+    mode_selectplus.cpp \
+    mode_merge.cpp \
+    mode_mergevalue.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -82,7 +84,9 @@ HEADERS += \
     mode_paimt.h \
     mode_prepeat.h \
     mode_segmentplus.h \
-    mode_selectplus.h
+    mode_selectplus.h \
+    mode_merge.h \
+    mode_mergevalue.h
 
 FORMS += \
         mainwindow.ui

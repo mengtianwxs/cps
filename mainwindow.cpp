@@ -25,8 +25,11 @@
 #include "mode_prepeat.h"
 #include "mode_segmentplus.h"
 #include "mode_selectplus.h"
+#include "mode_merge.h"
+#include "mode_mergevalue.h"
 
 #include <QDesktopWidget>
+#include <QPalette>
 #include <QRegExpValidator>
 #include <qtextcodec.h>
 
@@ -45,6 +48,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     initNetworkAccessManager();
     initUI();
+    displayTip();
 
 }
 
@@ -166,7 +170,8 @@ void MainWindow::initUI()
                        "(\\-[1-9][0-9][0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?\\.?[0-9]?[0-9]?[0-9]?)|"
                        "(\\-[1-9][0-9][0-9]?\\*[1-9][0-9]?\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?\\.?[0-9]?[0-9]?[0-9]?\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?)|"
                        "(\\-\\-)|(\\-s[1-9][0-9]?[0-9]?[0-9]?[0-9]?\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?)|"
-                        "(\\-s\\[([0-9]{,50}\\,?){,50}\\]\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?)"
+                        "(\\-s\\[([0-9]{,50}\\,?){,50}\\]\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?)|"
+                       "([\\-|\\+]m[1-9])"
                        );
 
     QValidator*  vali_gg=new QRegExpValidator(regx_guige,this);
@@ -215,7 +220,9 @@ void MainWindow::method_Addcontent(QStringList sl_content,QStringList sl_state)
 
 void MainWindow::method_counter()
 {
+
     counter=counter+1;
+
     te_content->append("counter ##########>> "+QString::number(counter)+"\n");
 
 
@@ -243,6 +250,47 @@ void MainWindow::method_createLabelforListinfo()
          ui->statusBar->showMessage(list.join(","));
     }
 
+}
+
+void MainWindow::displayTip()
+{
+
+   lal_rightinfo=new QLabel(this);
+   lal_rightinfo->setHidden(true);
+//   lal_rightinfo->setText("this is mip");
+   QPalette pa;
+   pa.setColor(QPalette::WindowText,Qt::red);
+
+   lal_rightinfo->setPalette(pa);
+   lal_rightinfo->resize(100,400);
+   lal_rightinfo->move(this->width()-100,10);
+   lal_rightinfo->setAlignment(Qt::AlignLeft|Qt::AlignTop);
+
+//  lal_rightinfo->setStyleSheet("background-color:red");
+
+
+
+
+
+
+}
+
+void MainWindow::hidelal()
+{
+    lal_rightinfo->setHidden(true);
+    isHidelal=false;
+
+}
+
+void MainWindow::displaylal()
+{
+    lal_rightinfo->setHidden(false);
+    isHidelal=true;
+    if(listhe.count()>0){
+
+        lal_rightinfo->setText(listhe.join(""));
+
+    }
 }
 
 
@@ -402,6 +450,12 @@ void MainWindow::method_calc()
 
     //@23 -s[1,2,4]*4 取第1，2，4项的值相加并*4 selectplus
     QRegExp re_selectplus("\\-s\\[([0-9]{,50}\\,?){,50}\\]\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?");
+
+    //@24 -m2 merge value 此模式只不参与计算 只用来记录数据
+    QRegExp re_merge("\\-m[2-9]");
+
+    //@25 +m2 merge value 此模式参与计算 可以与F6连合使用
+    QRegExp re_mergevalue("\\+m[1-9]");
 
 
     (le_400->text()=="")?s400=0:s400=le_400->text().toInt();
@@ -716,7 +770,7 @@ void MainWindow::method_calc()
 
         if(itemlist.count()==1){
           if((itemindex.toInt()-1)>=0 and (itemindex.toInt()-1)<=maxIndexList and cishu>0){
-qDebug()<<"in here";
+//qDebug()<<"in here";
               double lastvalued=list.at(itemindex.toInt()-1).toDouble();
 
               double totalvalue=lastvalued*cishu;
@@ -744,7 +798,7 @@ qDebug()<<"in here";
             }
 
             if(isItem and cishu>0){
-                qDebug()<<"run here";
+//                qDebug()<<"run here";
                 double lastvalue=0;
                 for(int n=0;n<itemlist.count();n++){
                     double subvalue=list.at(itemlist.at(n).toInt()-1).toDouble();
@@ -767,16 +821,79 @@ qDebug()<<"in here";
 
     }
 
+     //@24 -m[1-9] need use with F6 key 这个模式只记录不参与计算
+    if(re_merge.exactMatch(txt)){
+//        mabc=new mode_merge();
+        QStringList list_merge;
+        if(list.count()>=2){
+
+//            qDebug()<<list;
+            //-m2 由于m
+
+//            qDebug()<<"thisisnum"<<num;
+
+            int cout=txt.mid(2).toInt();
+            int sumlist=list.count();
+
+            if(cout>=2 and cout<=9 and cout<=sumlist){
+                double he=0;
+                for(int i=0;i<cout;i++){
+//                    qDebug()<<"he"<<sumlist-i-1;
+//                    int index=sumlist-i-1;
+                    he=he+list.at(sumlist-i-1).toDouble();
+                }
+//                把每次合并的结果存放到变量listhe
+                hecouter=hecouter+1;
+                 listhe.append(QString::asprintf("+m%d %.2f\n",hecouter,he));
+                 list_heval.append(QString::number(he));
+
+                 this->statusBar()->showMessage("merge mode "+QString::number(he));
+
+
+            }
+        }
+    }
+
+
+//    @25 +m2
+    if(re_mergevalue.exactMatch(txt)){
+
+        mabc=new mode_mergevalue();
+//        qDebug()<<"merge value mode"<<list_heval.join("");
+        //得到索引
+        int num=txt.mid(2).toInt()-1;
+        if(num<=list_heval.count()-1){
+//            qDebug()<<num<<list_heval.at(num);
+            double val=list_heval.at(num).toDouble();
+
+            mabc->sl_status.append("+m");
+            mabc->sl_content.append(QString::asprintf("+m%d=%.2f\n",num+1,val));
+            mabc->list.append(QString::number(val));
+
+        }else{
+//            qDebug()<<"out range";
+            this->statusBar()->showMessage("index out range");
+        }
+
+
+
+
+    }
+
 
     //判断mabc是否实例化，如果没实例化就不执行
     if(mabc!=NULL){
         mabc->method_calc(sl_jiahao,map);
-        sl_content=mabc->getSLContent();
-        sl_state=mabc->getSLStatus();
-        list.append(mabc->getList());
-        sl_taishu.append(QString::number(mabc->getTaiShu()));
-        method_Addcontent(sl_content,sl_state);
-        method_counter();
+
+        if(!re_merge.exactMatch(txt)){
+            sl_content=mabc->getSLContent();
+            sl_state=mabc->getSLStatus();
+            list.append(mabc->getList());
+            sl_taishu.append(QString::number(mabc->getTaiShu()));
+            method_Addcontent(sl_content,sl_state);
+            method_counter();
+        }
+
 
     }
 
@@ -891,6 +1008,10 @@ void MainWindow::method_reset()
     list_guige.clear();
     startlist=0;
 
+    listhe.clear();
+    hecouter=0;
+    list_heval.clear();
+    lal_rightinfo->clear();
 
 }
 
@@ -1080,6 +1201,14 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         le_guige->setText("-");
         le_guige->setFocus();
     }
+
+    //+ key
+//    qDebug()<<event->key();
+    if(event->key()==43){
+        le_guige->clear();
+        le_guige->setText("+m");
+        le_guige->setFocus();
+    }
     if(event->key()==Qt::Key_A){
 
         le_guige->setFocus();
@@ -1101,8 +1230,22 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         }
 
     if(event->key()==Qt::Key_F1){
-        qDebug()<<"f1";
+//        qDebug()<<"f1";
         method_createLabelforListinfo();
+    }
+
+    //显示+m变量信息
+    if(event->key()==Qt::Key_F6){
+        isHidelal?hidelal():displaylal();
+
+    }
+
+    //清空+m变量
+    if(event->key()==Qt::Key_F7){
+        listhe.clear();
+        hecouter=0;
+        list_heval.clear();
+        lal_rightinfo->clear();
     }
 
 

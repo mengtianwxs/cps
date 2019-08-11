@@ -12,6 +12,7 @@
 #include <QKeyEvent>
 #include<QNetworkAccessManager>
 #include <QNetworkReply>
+#include <QLabel>
 
 namespace Ui {
 class MainWindow;
@@ -111,6 +112,12 @@ private:
 
     int startlist=0;
 
+     QLabel* lal_rightinfo;
+     bool isHidelal=false;
+     QStringList listhe;
+     int hecouter=0;
+     QStringList list_heval;
+
 
 
 
@@ -121,6 +128,9 @@ protected:
     void method_counter();
     void method_counterreset();
     void method_createLabelforListinfo();
+    void displayTip();
+    void hidelal();
+    void displaylal();
 
 
 
