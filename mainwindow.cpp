@@ -864,6 +864,11 @@ void MainWindow::method_calc()
         mabc=new mode_mergevalue();
 //        qDebug()<<"merge value mode"<<list_heval.join("");
         //得到索引
+        if(list_heval.count()==0){
+              mabc->sl_status.append("+m is null");
+             mabc->sl_content.append(QString::asprintf("+m=%.2f\n",0));
+             mabc->list.append(QString::number(0));
+        }
         int num=txt.mid(2).toInt()-1;
         if(num<=list_heval.count()-1){
 //            qDebug()<<num<<list_heval.at(num);
@@ -875,7 +880,7 @@ void MainWindow::method_calc()
 
         }else{
 //            qDebug()<<"out range";
-            this->statusBar()->showMessage("index out range");
+            this->statusBar()->showMessage("+m index out range");
         }
 
 
