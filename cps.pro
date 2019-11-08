@@ -46,6 +46,7 @@ SOURCES += \
     mode_4abcn.cpp \
     mode_4abcnpe.cpp \
     mode_pm.cpp \
+    mode_prepeatnum.cpp \
     mode_price.cpp \
     mode_pricem.cpp \
     mode_42abc2n.cpp \
@@ -77,6 +78,7 @@ HEADERS += \
     mode_4abcn.h \
     mode_4abcnpe.h \
     mode_pm.h \
+    mode_prepeatnum.h \
     mode_price.h \
     mode_pricem.h \
     mode_42abc2n.h \

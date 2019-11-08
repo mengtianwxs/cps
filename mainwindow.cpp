@@ -27,7 +27,9 @@
 #include "mode_selectplus.h"
 #include "mode_merge.h"
 #include "mode_mergevalue.h"
+#include "mode_prepeatnum.h"
 
+#include <QCompleter>
 #include <QDesktopWidget>
 #include <QPalette>
 #include <QRegExpValidator>
@@ -41,10 +43,8 @@ MainWindow::MainWindow(QWidget *parent) :
     QDesktopWidget* desk=QApplication::desktop();
     int dw=desk->screen()->width();
     int dh=desk->screen()->height();
-//    this->resize(850,650);
     this->setFixedSize(QSize(650,550));
     this->move((dw-this->width())/2-10,(dh-this->height())/2-10);
-//    qDebug()<<(dw-this->width())/2<<(dh-this->height())/2<<dw<<dh<<this->width()<<this->height();
 
     initNetworkAccessManager();
     initUI();
@@ -169,7 +169,7 @@ void MainWindow::initUI()
                        "(\\-[1-9][0-9][0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?)|"
                        "(\\-[1-9][0-9][0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?\\.?[0-9]?[0-9]?[0-9]?)|"
                        "(\\-[1-9][0-9][0-9]?\\*[1-9][0-9]?\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?\\.?[0-9]?[0-9]?[0-9]?\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?)|"
-                       "(\\-\\-)|(\\-s[1-9][0-9]?[0-9]?[0-9]?[0-9]?\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?)|"
+                       "(\\-\\-)|(\\-\\-\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?)|(\\-s[1-9][0-9]?[0-9]?[0-9]?[0-9]?\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?)|"
                         "(\\-s\\[([0-9]{,50}\\,?){,50}\\]\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?)|"
                        "(\\-m[2-9])|(\\+m[1-9])"
                        );
@@ -178,6 +178,51 @@ void MainWindow::initUI()
     le_guige->setValidator(vali_gg);
     le_guige->setPlaceholderText("2*100*10+2*80*8+2*60*6");
     le_guige->setFocus();
+
+    QStringList ggdatalist;
+    ggdatalist.append("-100*10*");
+    ggdatalist.append("-100*8*");
+    ggdatalist.append("-100*6*");
+    ggdatalist.append("-120*10*");
+    ggdatalist.append("-125*10*");
+    ggdatalist.append("-80*10*");
+    ggdatalist.append("-80*8*");
+    ggdatalist.append("-80*6*");
+    ggdatalist.append("-60*10*");
+    ggdatalist.append("-60*6*");
+    ggdatalist.append("-60*8*");
+    ggdatalist.append("-50*5*");
+    ggdatalist.append("-40*5*");
+    ggdatalist.append("-40*4*");
+    ggdatalist.append("-30*3*");
+    ggdatalist.append("-30*4*");
+    ggdatalist.append("-25*3*");
+    ggdatalist.append("-20*3*");
+    ggdatalist.append("-15*3*");
+    ggdatalist.append("2*120*10+2*120*10+100*10");
+    ggdatalist.append("100*10+40*4");
+    ggdatalist.append("120*10+100*10+80*8");
+    ggdatalist.append("80*8+80*8+60*6");
+    ggdatalist.append("100*10+100*10+80*8");
+    ggdatalist.append("60*6+40*4");
+    ggdatalist.append("120*10+120*10+80*8");
+    ggdatalist.append("2*100*10+100*10+100*10");
+    ggdatalist.append("50*5+40*4");
+    ggdatalist.append("40*4+40*4");
+    ggdatalist.append("2*120*10+120*10+100*10");
+    ggdatalist.append("120*10+100*10+80*8");
+    ggdatalist.append("2*100*10+100*10+80*8");
+    ggdatalist.append("50*5+50*5+40*4");
+    ggdatalist.append("80*8+50*5");
+    ggdatalist.append("100*10+100*10+60*8");
+    ggdatalist.append("4*60*8+50*5");
+
+    QCompleter* cple=new QCompleter(ggdatalist);
+
+    cple->setCaseSensitivity(Qt::CaseInsensitive);
+    le_guige->setCompleter(cple);
+
+
 
     te_content->setEnabled(true);
 
@@ -267,12 +312,6 @@ void MainWindow::displayTip()
    lal_rightinfo->setAlignment(Qt::AlignLeft|Qt::AlignTop);
 
 //  lal_rightinfo->setStyleSheet("background-color:red");
-
-
-
-
-
-
 }
 
 void MainWindow::hidelal()
@@ -300,22 +339,16 @@ void MainWindow::method_lvreplyFinished(QNetworkReply *)
 {
     QTextCodec *codec=QTextCodec::codecForName("utf-8");
     QString str=codec->toUnicode(nrlv->readAll());
-    QRegExp reg("ml10");
+    QRegExp reg("平均价");
 
     int ci=reg.indexIn(str);
-    QString content=str.mid(ci,20);
-    //              qDebug()<<content;
+    QString content=str.mid(ci,100);
 
-
-    QRegExp regint("(m.*>)(\\d+)");
+    QRegExp regint("(up\">)(\\d+)");
     regint.indexIn(content);
     QString strcap=regint.cap(2);
-    if(strcap==""){
-        netprice_lv="24";
 
-    }
     netprice_lv=QString::number(strcap.toInt()/1000+10);
-    //    qDebug()<<netprice_lv;
 
 }
 
@@ -357,17 +390,18 @@ void MainWindow::method_tongreplyFinished(QNetworkReply *)
 
     QTextCodec *codec=QTextCodec::codecForName("utf-8");
     QString str=codec->toUnicode(nr->readAll());
-    QRegExp reg("ml10");
+   // qDebug()<<"thisis code"<<str;
+    QRegExp reg("平均价");
 
     int ci=reg.indexIn(str);
-    QString content=str.mid(ci,20);
+//    qDebug()<<"index+"<<ci;
+    QString content=str.mid(ci,100);
+//    qDebug()<<"thisis content"<<content;
 
-    QRegExp regint("(m.*>)(\\d+)");
+    QRegExp regint("(down\">)(\\d+)");
     regint.indexIn(content);
     QString strcap=regint.cap(2);
-    if(strcap==" "){
-        netprice_tong="60";
-    }
+
     netprice_tong=QString::number(strcap.toInt()/1000+10);
     (netprice_tong=="")?le_dj->setText("60"):le_dj->setText(netprice_tong);
 
@@ -456,6 +490,9 @@ void MainWindow::method_calc()
 
     //@25 +m2 merge value 此模式参与计算 可以与F6连合使用
     QRegExp re_mergevalue("\\+m[1-9]");
+
+    //@26 --*num 最后一次记录相乘一个数
+    QRegExp re_prepeatnum("\\-\\-\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?");
 
 
     (le_400->text()=="")?s400=0:s400=le_400->text().toInt();
@@ -700,11 +737,7 @@ void MainWindow::method_calc()
 
         mabc=new mode_segmentplus();
         if(list.count()>0){
-//            QString txt=sl_jiahao.at(0);
-        //    qDebug()<<txt;
             int xhindex=txt.lastIndexOf("*");
-
-        //    QString psabc=txt.mid(1,-1);
             int gtnum=txt.mid(2,xhindex-2).toInt();
             if(gtnum<=list.count()){
 
@@ -716,7 +749,6 @@ void MainWindow::method_calc()
              for(int i=0;i<gtnum;i++){
                  listdata.append(list.at(totallist-gtnum+i));
              }
-//             qDebug()<<listdata;
              double sum=0;
 
              for(int n=0;n<listdata.count();n++){
@@ -731,14 +763,8 @@ void MainWindow::method_calc()
              mabc->sl_content.append("segment plus= "+QString::number(lastsum)+" # "+QString::number(gtnum)+" 面 "+QString::number(repeatnum)+" 段\n");
              mabc->list.append(QString::number(lastsum));
 
-
-
             }
-
-
         }
-
-
     }
 
     //@23 -s[1,2,4]*4
@@ -885,6 +911,29 @@ void MainWindow::method_calc()
 
 
 
+
+    }
+
+
+    //@26 --*num
+    if(re_prepeatnum.exactMatch(txt)){
+
+        mabc=new mode_prepeatnum();
+        if(list.count()>0){
+
+            QString lastprice=list.last();
+            double price=lastprice.toDouble();
+
+            QString slnum=txt.mid(3,txt.length()-3);
+            int num=slnum.toInt();
+            double result=num*price;
+            QString resultstr=QString::number(result);
+            mabc->sl_content.append("- "+resultstr);
+            mabc->sl_status.append("-- price repeat num MODE | 分支排");
+            mabc->sl_content.append("= "+resultstr+"\n");
+            mabc->list.append(resultstr);
+
+        }
 
     }
 
@@ -1211,11 +1260,12 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     }
 
     //+ key
-//    qDebug()<<event->key();
+    qDebug()<<"ddd"<<event->key();
     if(event->key()==43){
         le_guige->clear();
         le_guige->setText("+m");
         le_guige->setFocus();
+        qDebug()<<"+m";
     }
     if(event->key()==Qt::Key_A){
 
