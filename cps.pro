@@ -56,7 +56,18 @@ SOURCES += \
     mode_segmentplus.cpp \
     mode_selectplus.cpp \
     mode_merge.cpp \
-    mode_mergevalue.cpp
+    mode_mergevalue.cpp \
+    man.cpp \
+    man_painumber.cpp \
+    man_price.cpp \
+    man_pricenumber.cpp \
+    man_painumbertaishu.cpp \
+    man_repeatlast.cpp \
+    man_repeatlastnumber.cpp \
+    man_segmentnumbercishu.cpp \
+    man_segmentabcnumber.cpp \
+    man_mergenumber.cpp \
+    man_getmergenumber.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -88,7 +99,18 @@ HEADERS += \
     mode_segmentplus.h \
     mode_selectplus.h \
     mode_merge.h \
-    mode_mergevalue.h
+    mode_mergevalue.h \
+    man.h \
+    man_painumber.h \
+    man_price.h \
+    man_pricenumber.h \
+    man_painumbertaishu.h \
+    man_repeatlast.h \
+    man_repeatlastnumber.h \
+    man_segmentnumbercishu.h \
+    man_segmentabcnumber.h \
+    man_mergenumber.h \
+    man_getmergenumber.h
 
 FORMS += \
         mainwindow.ui

@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "man.h"
 #include "mode_base.h"
 
 #include <QLineEdit>
@@ -58,10 +59,6 @@ private:
 
     QStringList list_guige;
     int numListGG=0;
-
-
-
-
      QString pnum;
      QString pabc;
     QString pn;
@@ -119,6 +116,10 @@ private:
      QStringList list_heval;
       int cout=0;
 
+      bool isManMode=false;
+      man* ma;
+
+
 
 
 
@@ -132,6 +133,9 @@ protected:
     void displayTip();
     void hidelal();
     void displaylal();
+    void method_doman();
+
+
 
 
 

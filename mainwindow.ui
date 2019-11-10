@@ -36,11 +36,10 @@
       <item row="0" column="0">
        <widget class="QLabel" name="lal_guige">
         <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/imgs/images/list.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string/>
         </property>
         <property name="styleSheet">
-         <string notr="true">QLabel#lal_guige:hover{
-color:red;}</string>
+         <string notr="true"/>
         </property>
         <property name="text">
          <string>排规格</string>

@@ -28,6 +28,16 @@
 #include "mode_merge.h"
 #include "mode_mergevalue.h"
 #include "mode_prepeatnum.h"
+#include "man_painumber.h"
+#include "man_price.h"
+#include "man_pricenumber.h"
+#include "man_painumbertaishu.h"
+#include "man_repeatlast.h"
+#include "man_repeatlastnumber.h"
+#include "man_segmentnumbercishu.h"
+#include "man_segmentabcnumber.h"
+#include "man_mergenumber.h"
+#include "man_getmergenumber.h"
 
 #include <QCompleter>
 #include <QDesktopWidget>
@@ -86,8 +96,6 @@ void MainWindow::initUI()
     cb_tong->setChecked(true);
     cb_lv->setChecked(false);
 
-
-
     state="t";
 
     te_content=ui->te_content;
@@ -135,11 +143,6 @@ void MainWindow::initUI()
         fb3_width=le_fb3_size->text().toInt();
     }
 
-
-
-
-
-
     QRegExp regx("[1-9][0-9]{0,4}");
     QValidator *vali=new QRegExpValidator(regx,this);
 
@@ -171,7 +174,7 @@ void MainWindow::initUI()
                        "(\\-[1-9][0-9][0-9]?\\*[1-9][0-9]?\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?\\.?[0-9]?[0-9]?[0-9]?\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?)|"
                        "(\\-\\-)|(\\-\\-\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?)|(\\-s[1-9][0-9]?[0-9]?[0-9]?[0-9]?\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?)|"
                         "(\\-s\\[([0-9]{,50}\\,?){,50}\\]\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?)|"
-                       "(\\-m[2-9])|(\\+m[1-9])"
+                       "(\\-m[2-9])|(\\+m[1-9])|(man\\s[a-z]{2,100}(\\*[a-z]{2,100})?)"
                        );
 
     QValidator*  vali_gg=new QRegExpValidator(regx_guige,this);
@@ -216,6 +219,19 @@ void MainWindow::initUI()
     ggdatalist.append("80*8+50*5");
     ggdatalist.append("100*10+100*10+60*8");
     ggdatalist.append("4*60*8+50*5");
+
+    //man
+    ggdatalist.append("man painumber");
+    ggdatalist.append("man price");
+    ggdatalist.append("man pricenumber");
+    ggdatalist.append("man painumbertaishu");
+    ggdatalist.append("man repeatlast");
+    ggdatalist.append("man repeatlastnumber");
+    ggdatalist.append("man segmentnumbercishu");
+    ggdatalist.append("man segmentabcnumber");
+    ggdatalist.append("man mergenumber");
+    ggdatalist.append("man getmergenumber");
+
 
     QCompleter* cple=new QCompleter(ggdatalist);
 
@@ -265,33 +281,22 @@ void MainWindow::method_Addcontent(QStringList sl_content,QStringList sl_state)
 
 void MainWindow::method_counter()
 {
-
     counter=counter+1;
-
     te_content->append("counter ##########>> "+QString::number(counter)+"\n");
-
 
 }
 
 void MainWindow::method_counterreset()
 {
     counter=0;
-    //    te_content->append("counter ##########>> "+QString::number(counter));
+
 }
 
 void MainWindow::method_createLabelforListinfo()
 {
 
-//    QLabel* lal_listinfo=new QLabel(this);
     if(list.count()>0){
-//        for(int i=0;i<list.count();i++){
 
-
-
-//        lal_listinfo->setText(QString::number(list.at(i).toInt()));
-//        lal_listinfo->setText(lal_listinfo->text()+"\n");
-
-//         }
          ui->statusBar->showMessage(list.join(","));
     }
 
@@ -332,6 +337,69 @@ void MainWindow::displaylal()
     }
 }
 
+//操作手册
+void MainWindow::method_doman()
+{
+    QRegExp reman_painumber("man painumber");
+    QRegExp reman_price("man price");
+    QRegExp reman_pricenumber("man pricenumber");
+    QRegExp reman_painumbertaishu("man painumbertaishu");
+    QRegExp reman_repeatlast("man repeatlast");
+    QRegExp reman_repeatnumber("man repeatlastnumber");
+    QRegExp reman_segmentnumbercishu("man segmentnumbercishu");
+    QRegExp reman_segmentabcnumber("man segmentabcnumber");
+    QRegExp reman_mergenumber("man_mergenumber");
+    QRegExp reman_getmergenumber("man getmergenumber");
+//    QRegExp reman_pai
+
+
+    //man mode
+
+    if(reman_painumber.exactMatch(le_guige->text())){
+
+       ma=new man_painumber();
+
+    }
+
+    if(reman_price.exactMatch(le_guige->text())){
+        ma=new man_price();
+    }
+
+    if(reman_pricenumber.exactMatch(le_guige->text())){
+        ma=new man_pricenumber();
+    }
+
+    if(reman_painumbertaishu.exactMatch(le_guige->text())){
+        ma=new man_painumbertaishu();
+    }
+    if(reman_repeatlast.exactMatch(le_guige->text())){
+        ma=new man_repeatlast();
+    }
+    if(reman_repeatnumber.exactMatch(le_guige->text())){
+        ma=new man_repeatlastnumber();
+    }
+    if(reman_segmentnumbercishu.exactMatch(le_guige->text())){
+        ma=new man_segmentnumbercishu();
+    }
+    if(reman_segmentabcnumber.exactMatch(le_guige->text())){
+        ma=new man_segmentabcnumber();
+    }
+    if(reman_mergenumber.exactMatch(le_guige->text())){
+        ma=new man_mergenumber();
+    }
+    if(reman_getmergenumber.exactMatch(le_guige->text())){
+        ma=new man_getmergenumber();
+    }
+
+
+    ui->statusBar->showMessage(ma->readMan());
+
+
+     isManMode=false;
+//     qDebug()<<"lastismanmode"<<isManMode;
+
+}
+
 
 
 
@@ -344,10 +412,11 @@ void MainWindow::method_lvreplyFinished(QNetworkReply *)
     int ci=reg.indexIn(str);
     QString content=str.mid(ci,100);
 
-    QRegExp regint("(up\">)(\\d+)");
+    QRegExp regint("(\">)(\\d+)");
     regint.indexIn(content);
-    QString strcap=regint.cap(2);
 
+    QString strcap=regint.cap(2);
+//qDebug()<<"@@"<<strcap;
     netprice_lv=QString::number(strcap.toInt()/1000+10);
 
 }
@@ -390,7 +459,7 @@ void MainWindow::method_tongreplyFinished(QNetworkReply *)
 
     QTextCodec *codec=QTextCodec::codecForName("utf-8");
     QString str=codec->toUnicode(nr->readAll());
-   // qDebug()<<"thisis code"<<str;
+//    qDebug()<<"thisis code"<<str;
     QRegExp reg("平均价");
 
     int ci=reg.indexIn(str);
@@ -398,7 +467,7 @@ void MainWindow::method_tongreplyFinished(QNetworkReply *)
     QString content=str.mid(ci,100);
 //    qDebug()<<"thisis content"<<content;
 
-    QRegExp regint("(down\">)(\\d+)");
+    QRegExp regint("(\">)(\\d+)");
     regint.indexIn(content);
     QString strcap=regint.cap(2);
 
@@ -423,6 +492,9 @@ void MainWindow::method_clear()
 
 void MainWindow::method_calc()
 {
+
+
+
 
 
     //@@重新设计思路 用正则表达式匹配
@@ -495,6 +567,8 @@ void MainWindow::method_calc()
     QRegExp re_prepeatnum("\\-\\-\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?");
 
 
+
+
     (le_400->text()=="")?s400=0:s400=le_400->text().toInt();
     (le_600->text()=="")?s600=0:s600=le_600->text().toInt();
     (le_800->text()=="")?s800=0:s800=le_800->text().toInt();
@@ -538,7 +612,7 @@ void MainWindow::method_calc()
     map.insert("dj",QString::number(dj));
 
 
-    if(ggd_bool){
+    if(ggd_bool ){
         //@@1  --------------------------------------------------------------------------
         if(re_abc.exactMatch(txt))
         {
@@ -783,22 +857,15 @@ void MainWindow::method_calc()
         int gtindex_start=txt.indexOf("[");
         int gtindex_end=txt.indexOf("]");
         QString itemindex=txt.mid(gtindex_start+1,gtindex_end-gtindex_start-1);
-//        qDebug()<<list<<xinghaoindex<<cishu<<gtindex_start<<gtindex_end<<itemindex;
         //得到需要操作的索引集合
         QStringList itemlist=itemindex.split(",");
-
 
         //list中最大的索引值
         int maxIndexList=list.count()-1;
 
-//        qDebug()<<"maxindexinlist "<<maxIndexList<<itemindex;
-
-
         if(itemlist.count()==1){
           if((itemindex.toInt()-1)>=0 and (itemindex.toInt()-1)<=maxIndexList and cishu>0){
-//qDebug()<<"in here";
               double lastvalued=list.at(itemindex.toInt()-1).toDouble();
-
               double totalvalue=lastvalued*cishu;
               mabc->sl_content.append(">>>> "+list.join(',')+" >>>> "+QString::number(list.count()));
               mabc->sl_content.append("-s ["+itemindex + "]*"+QString::number(cishu));
@@ -813,10 +880,7 @@ void MainWindow::method_calc()
              //检索索引集合中的索引范围是否真实存在于list中
               bool isItem=true;
             for(int i=0;i<itemlist.count();i++){
-//                qDebug()<<itemlist.at(i).toInt();
-
                 if((itemlist.at(i).toInt()-1)>maxIndexList or (itemlist.at(i).toInt()-1)<0){
-//                      qDebug()<<"da xiao";
                     isItem=false;
                     break;
                 }
@@ -824,11 +888,9 @@ void MainWindow::method_calc()
             }
 
             if(isItem and cishu>0){
-//                qDebug()<<"run here";
                 double lastvalue=0;
                 for(int n=0;n<itemlist.count();n++){
                     double subvalue=list.at(itemlist.at(n).toInt()-1).toDouble();
-//                     qDebug()<<"sub"<<subvalue;
                     lastvalue=lastvalue+subvalue;
 
                 }
@@ -850,23 +912,17 @@ void MainWindow::method_calc()
      //@24 -m[2-9] need use with F6 key 这个模式只记录不参与计算
     if(re_merge.exactMatch(txt)){
         mabc=new mode_merge();
-//        QStringList list_merge;
         if(list.count()>=2){
 
-//            qDebug()<<list;
             //-m2 由于m
-
-//            qDebug()<<"thisisnum"<<num;
 
             cout=txt.mid(2).toInt();
             int sumlist=list.count();
-//            qDebug()<<"cout"<<cout;
 
             if(cout>=2 and cout<=9 and cout<=sumlist){
                 double he=0;
                 for(int i=0;i<cout;i++){
-//                    qDebug()<<"he"<<sumlist-i-1;
-//                    int index=sumlist-i-1;
+
                     he=he+list.at(sumlist-i-1).toDouble();
                 }
 //                把每次合并的结果存放到变量listhe
@@ -877,7 +933,6 @@ void MainWindow::method_calc()
                  this->statusBar()->showMessage("merge mode "+QString::number(he));
 //                 mabc->sl_status.append("-m");
 //                 mabc->sl_content.append(QString::asprintf("+m%d=%.2f\n",num+1,val));
-
 
             }
         }
@@ -905,13 +960,8 @@ void MainWindow::method_calc()
             mabc->list.append(QString::number(val));
 
         }else{
-//            qDebug()<<"out range";
             this->statusBar()->showMessage("+m index out range");
         }
-
-
-
-
     }
 
 
@@ -938,6 +988,7 @@ void MainWindow::method_calc()
     }
 
 
+
     //判断mabc是否实例化，如果没实例化就不执行
     if(mabc!=NULL){
         mabc->method_calc(sl_jiahao,map);
@@ -961,8 +1012,10 @@ void MainWindow::method_calc()
 
     }
 
-}//end
 
+
+
+}//end
 
 
 void MainWindow::method_cbt(int s)
@@ -977,11 +1030,7 @@ void MainWindow::method_cbt(int s)
 
             le_dj->setText(netprice_tong);
         }
-
-
     }
-    //    qDebug()<<"state "<<state;
-
 }
 
 void MainWindow::method_cbl(int s)
@@ -990,9 +1039,6 @@ void MainWindow::method_cbl(int s)
         cb_tong->setChecked(false);
         cb_lv->setChecked(true);
         state="l";
-
-
-
         if(netprice_lv==""){
             le_dj->setText("23");
         }else{
@@ -1000,8 +1046,6 @@ void MainWindow::method_cbl(int s)
             le_dj->setText(netprice_lv);
         }
     }
-
-
 }
 
 void MainWindow::method_textedit_cursormove()
@@ -1020,22 +1064,14 @@ void MainWindow::method_sumadd()
 
         }
 
-//        qDebug()<<"sltaishu="<<sl_taishu.length();
-
         for(int d=0;d<sl_taishu.length();d++)
         {
             TotalTaiShu=TotalTaiShu+sl_taishu.at(d).toInt();
-//            qDebug()<<TotalTaiShu<<"="<<sl_taishu;
         }
 
         te_content->append("sum ( "+list.join(",")+" )");
         te_content->append("sum ==========>> ∑ "+QString::number(sum)+" Total "+QString::number(TotalTaiShu)+" 台 "+QString::number(len)+" 次\n");
         TotalTaiShu=0;
-
-//        method_counter();
-
-
-
     }
 }
 
@@ -1074,22 +1110,35 @@ void MainWindow::method_reset()
 
 void MainWindow::method_enterGuiGe()
 {
-    method_calc();
+
+     QString txtStr=le_guige->text();
+     QString midtxt=txtStr.mid(0,3);
+     qDebug()<<txtStr<<"midtxt"<<midtxt;
+     if(midtxt=="man"){
+         isManMode=true;
+     }else{
+         isManMode=false;
+     }
+
+     qDebug()<<"manmode"<<isManMode;
+
+    if(isManMode==false){
 
 
-    QString curentStr=le_guige->text();
-    if(list_guige.contains(curentStr)==false){
-       list_guige.append(le_guige->text());
+        method_calc();
+        QString curentStr=le_guige->text();
+        if(list_guige.contains(curentStr)==false){
+            list_guige.append(le_guige->text());
+        }
+
+        ui->cb_tong->setFocus();
+    }
+
+    if(isManMode==true){
+        method_doman();
 
 
     }
-
-
-
-
-    ui->cb_tong->setFocus();
-//    method_counter();
-
 }
 
 void MainWindow::method_enterp()
@@ -1260,7 +1309,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     }
 
     //+ key
-    qDebug()<<"ddd"<<event->key();
+//    qDebug()<<"ddd"<<event->key();
     if(event->key()==43){
         le_guige->clear();
         le_guige->setText("+m");
@@ -1276,7 +1325,6 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     if(event->key()==91){
 
         if(list_guige.size()>0){
-//      qDebug()<<"startlist"<<startlist;
        le_guige->setText(list_guige.at(startlist));
         if(startlist<list_guige.count()-1){
             startlist=startlist+1;
@@ -1298,6 +1346,13 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
     }
 
+    if(event->key()==Qt::Key_M){
+
+        this->le_guige->clear();
+        this->le_guige->setFocus();
+        this->le_guige->setText("man ");
+    }
+
     //清空+m变量
     if(event->key()==Qt::Key_F7){
         listhe.clear();
@@ -1305,11 +1360,6 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         list_heval.clear();
         lal_rightinfo->clear();
     }
-
-
-
-
-
 }
 
 
