@@ -7,7 +7,6 @@
 QT       += core gui
 QT += network
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-RC_ICONS=images/cpsico.ico
 
 TARGET = cps
 TEMPLATE = app
@@ -125,5 +124,4 @@ DISTFILES += \
 
 
 
-RESOURCES += \
-    cpsres.qrc
+RESOURCES +=

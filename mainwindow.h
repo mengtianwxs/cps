@@ -35,7 +35,6 @@ private:
     QPushButton* pb_sumadd;
     QPushButton* pb_reset;
     QPushButton* pb_pop;
-
     QLineEdit* le_guige;
     QTextEdit* te_content;
     QLineEdit* le_dj;
@@ -48,32 +47,27 @@ private:
     QLineEdit* le_1200;
     QString state;
     int stage_num;
-
     QLineEdit* le_fb1_size;
     QLineEdit* le_fb2_size;
     QLineEdit* le_fb3_size;
-
     QLineEdit* le_fb1_sl;
     QLineEdit* le_fb2_sl;
     QLineEdit* le_fb3_sl;
-
     QStringList list_guige;
     int numListGG=0;
-     QString pnum;
-     QString pabc;
+    QString pnum;
+    QString pabc;
     QString pn;
     QString ppe;
     QString pabc_width;
-     QString pabc_deep;
+    QString pabc_deep;
     QString pn_width;
     QString pn_deep;
-     QString ppe_width;
+    QString ppe_width;
     QString ppe_deep;
-
     QStringList list;
     QStringList sl_content;
     QStringList sl_state;
-
     int counter=0;
 
 
@@ -97,7 +91,7 @@ private:
 
     QNetworkAccessManager* nw_am;
     QNetworkReply* nr;
-     QString netprice_tong="";
+    QString netprice_tong="";
 
     QNetworkAccessManager* nw_amlv;
     QNetworkReply* nrlv;
@@ -109,15 +103,17 @@ private:
 
     int startlist=0;
 
-     QLabel* lal_rightinfo;
-     bool isHidelal=false;
-     QStringList listhe;
-     int hecouter=0;
-     QStringList list_heval;
-      int cout=0;
+    QLabel* lal_rightinfo;
+    bool isHidelal=false;
+    QStringList listhe;
+    int hecouter=0;
+    QStringList list_heval;
+    int cout=0;
 
-      bool isManMode=false;
-      man* ma;
+    bool isManMode=false;
+    man* ma;
+    QLabel* lal_leftinfo;
+    bool isHideleftinfo=false;
 
 
 
@@ -134,6 +130,11 @@ protected:
     void hidelal();
     void displaylal();
     void method_doman();
+
+
+public:
+    QStringList getXMLData(QString path);
+
 
 
 

@@ -41,8 +41,10 @@
 
 #include <QCompleter>
 #include <QDesktopWidget>
+#include <QMessageBox>
 #include <QPalette>
 #include <QRegExpValidator>
+#include <QXmlStreamReader>
 #include <qtextcodec.h>
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -81,7 +83,7 @@ void MainWindow::initNetworkAccessManager()
 
 void MainWindow::initUI()
 {
-    this->setWindowTitle("cps plus power by mengtianwxs");
+    this->setWindowTitle("铜排价格计算系统");
     le_guige=ui->le_pai_guige;
 
     pb_calc=ui->pb_calc;
@@ -232,6 +234,18 @@ void MainWindow::initUI()
     ggdatalist.append("man mergenumber");
     ggdatalist.append("man getmergenumber");
 
+    QString path=qApp->applicationDirPath();
+    path.append("/config.xml");
+    QStringList data=getXMLData(path);
+    if(data.length()>0){
+
+        QStringListIterator iter(data);
+        while(iter.hasNext()){
+            QString i=iter.next();
+            ggdatalist.append(i);
+        }
+
+    }
 
     QCompleter* cple=new QCompleter(ggdatalist);
 
@@ -317,6 +331,8 @@ void MainWindow::displayTip()
    lal_rightinfo->setAlignment(Qt::AlignLeft|Qt::AlignTop);
 
 //  lal_rightinfo->setStyleSheet("background-color:red");
+
+
 }
 
 void MainWindow::hidelal()
@@ -350,7 +366,10 @@ void MainWindow::method_doman()
     QRegExp reman_segmentabcnumber("man segmentabcnumber");
     QRegExp reman_mergenumber("man_mergenumber");
     QRegExp reman_getmergenumber("man getmergenumber");
+
 //    QRegExp reman_pai
+
+
 
 
     //man mode
@@ -397,6 +416,34 @@ void MainWindow::method_doman()
 
      isManMode=false;
 //     qDebug()<<"lastismanmode"<<isManMode;
+
+}
+
+QStringList MainWindow::getXMLData(QString path)
+{
+    QStringList data;
+    QFile file(path);
+    if(file.open(QFile::ReadOnly|QFile::Text)){
+        QXmlStreamReader read;
+        read.setDevice(&file);
+
+        while(!read.atEnd()){
+
+            if(read.name()=="item"){
+//                qDebug()<<read.readElementText();
+                data.append(read.readElementText());
+            }
+
+
+
+            read.readNext();
+        }
+    }
+
+    file.close();
+
+    return data;
+
 
 }
 

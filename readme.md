@@ -1,4 +1,5 @@
 CPS
+开始工作之前需要先在软件安装起始目录下配置一个名为config.xml的配置文件。此文件主要用来添加额外的提示数据方便进行运算。
 ===
 ![image](https://github.com/mengtianwxs/cps/blob/master/images/preview.png)
 
@@ -36,6 +37,9 @@ CPS
         @21  -- 重复上一次的价格
         @22  -s4*4  上一段连续4台计算结果的值*4 段相加*次数
         @23 -s[1,2,4]*4 取第1，2，4项的值相加并*4 selectplus
+        @24 --*a
+        @25 -m2
+        @26 +m1
 
 
 `hotkey`
@@ -65,6 +69,33 @@ CPS
         7 fb2 num
         8 fb3 num
         F1 look at list in statebar
+        F6 look at list in merge data
+
+"- again write **"
+                "[ repeat display guige content"
+                "a focus append guige content"
+                "b clear **"
+                "c sum **"
+                "enter calc **"
+                "w clear and write data to guige lineedit"
+                "r reset"
+                "ctrl+e setFoucs this"
+                "p pop method"
+                "g segment sum"
+                "Y fb1 size"
+                "U fb2 size"
+                "I fb3 size"
+                "D set danjia"
+                "1 600 num"
+                "2 800 num"
+                "3 1000 num"
+                "4 1200 num"
+                "5 400 num"
+                "6 fb1 num"
+                "7 fb2 num"
+                "8 fb3 num"
+                "F1 look at list in statebar"
+                "F6 look at list in merge data"
 
 
 

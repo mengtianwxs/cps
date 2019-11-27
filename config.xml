@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cpsconfig>
+ <item>80*8+80*8+80*6</item>
+ <item>4*80*8+80*6</item>
+ <item>4*80*8+60*6</item>
+ <item>4*100*10+80*8</item>
+ <item>4*40*4+30*3</item>
+</cpsconfig>
