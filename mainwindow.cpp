@@ -176,7 +176,8 @@ void MainWindow::initUI()
                        "(\\-[1-9][0-9][0-9]?\\*[1-9][0-9]?\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?\\.?[0-9]?[0-9]?[0-9]?\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?)|"
                        "(\\-\\-)|(\\-\\-\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?)|(\\-s[1-9][0-9]?[0-9]?[0-9]?[0-9]?\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?)|"
                         "(\\-s\\[([0-9]{,50}\\,?){,50}\\]\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?)|"
-                       "(\\-m[2-9])|(\\+m[1-9])|(man\\s[a-z]{2,100}(\\*[a-z]{2,100})?)"
+                       "(\\-m[2-9])|(\\+m[1-9])|(man\\s[a-z]{2,100}(\\*[a-z]{2,100})?)|"
+                       "((acb|mccb)[1-9][0-9]{1,4})"
                        );
 
     QValidator*  vali_gg=new QRegExpValidator(regx_guige,this);
@@ -366,6 +367,8 @@ void MainWindow::method_doman()
     QRegExp reman_segmentabcnumber("man segmentabcnumber");
     QRegExp reman_mergenumber("man_mergenumber");
     QRegExp reman_getmergenumber("man getmergenumber");
+
+
 
 //    QRegExp reman_pai
 
@@ -612,6 +615,8 @@ void MainWindow::method_calc()
 
     //@26 --*num 最后一次记录相乘一个数
     QRegExp re_prepeatnum("\\-\\-\\*[1-9][0-9]?[0-9]?[0-9]?[0-9]?");
+
+
 
 
 
@@ -1158,9 +1163,13 @@ void MainWindow::method_reset()
 void MainWindow::method_enterGuiGe()
 {
 
+
+
      QString txtStr=le_guige->text();
      QString midtxt=txtStr.mid(0,3);
-     qDebug()<<txtStr<<"midtxt"<<midtxt;
+//     qDebug()<<txtStr<<"midtxt"<<midtxt;
+
+
      if(midtxt=="man"){
          isManMode=true;
      }else{
@@ -1186,6 +1195,42 @@ void MainWindow::method_enterGuiGe()
 
 
     }
+
+
+    QRegExp re_acbmccb("(acb)[1-9][0-9]{1,4}");
+
+    if(re_acbmccb.exactMatch(txtStr)){
+        le_guige->clear();
+
+        if(txtStr=="acb400"){
+            le_guige->setText("-30*4*");
+        }
+        if(txtStr=="acb630"){
+            le_guige->setText("-50*5*");
+        }
+        if(txtStr=="acb800"){
+            le_guige->setText("-50*6*");
+        }
+        if(txtStr=="acb1000"){
+            le_guige->setText("-60*8*");
+        }
+        if(txtStr=="acb1250"){
+            le_guige->setText("-60*10*");
+        }
+
+        if(txtStr=="acb1600"){
+            le_guige->setText("-80*10*");
+        }
+        if(txtStr=="acb2000"){
+            le_guige->setText("-100*10*");
+        }
+
+        le_guige->setFocus();
+
+
+
+    }
+
 }
 
 void MainWindow::method_enterp()
