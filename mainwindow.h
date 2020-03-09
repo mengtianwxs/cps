@@ -110,10 +110,15 @@ private:
     QStringList list_heval;
     int cout=0;
 
-    bool isManMode=false;
+
     man* ma;
     QLabel* lal_leftinfo;
     bool isHideleftinfo=false;
+
+     bool isManMode=false;
+    bool isCalcMode=false;
+    bool isACBMode=false;
+
 
 
 

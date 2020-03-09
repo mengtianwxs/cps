@@ -222,6 +222,22 @@ void MainWindow::initUI()
     ggdatalist.append("80*8+50*5");
     ggdatalist.append("100*10+100*10+60*8");
     ggdatalist.append("4*60*8+50*5");
+    ggdatalist.append("80*8+80*8+80*6");
+    ggdatalist.append("4*80*8+80*6");
+    ggdatalist.append("4*80*8+60*6");
+    ggdatalist.append("4*100*10+80*8");
+    ggdatalist.append("4*125*10+80*10");
+    ggdatalist.append("4*40*4+30*3");
+    ggdatalist.append("4*60*10+50*5");
+    ggdatalist.append("4*60*6+50*5");
+    ggdatalist.append("acb400");
+    ggdatalist.append("acb800");
+    ggdatalist.append("acb1000");
+    ggdatalist.append("acb1250");
+    ggdatalist.append("acb1600");
+    ggdatalist.append("acb2000");
+
+
 
     //man
     ggdatalist.append("man painumber");
@@ -235,18 +251,19 @@ void MainWindow::initUI()
     ggdatalist.append("man mergenumber");
     ggdatalist.append("man getmergenumber");
 
-    QString path=qApp->applicationDirPath();
-    path.append("/config.xml");
-    QStringList data=getXMLData(path);
-    if(data.length()>0){
+    //此代码解析XML文件效率低
+//    QString path=qApp->applicationDirPath();
+//    path.append("/config.xml");
+//    QStringList data=getXMLData(path);
+//    if(data.length()>0){
 
-        QStringListIterator iter(data);
-        while(iter.hasNext()){
-            QString i=iter.next();
-            ggdatalist.append(i);
-        }
+//        QStringListIterator iter(data);
+//        while(iter.hasNext()){
+//            QString i=iter.next();
+//            ggdatalist.append(i);
+//        }
 
-    }
+//    }
 
     QCompleter* cple=new QCompleter(ggdatalist);
 
@@ -1167,69 +1184,79 @@ void MainWindow::method_enterGuiGe()
 
      QString txtStr=le_guige->text();
      QString midtxt=txtStr.mid(0,3);
+     //判断是man or acb or calc mode
 //     qDebug()<<txtStr<<"midtxt"<<midtxt;
-
 
      if(midtxt=="man"){
          isManMode=true;
-     }else{
+         isCalcMode=false;
+         isACBMode=false;
+     }else if(midtxt=="acb"){
+         isACBMode=true;
+         isManMode=false;
+         isCalcMode=false;
+     }else {
+         isCalcMode=true;
+         isACBMode=false;
          isManMode=false;
      }
 
-     qDebug()<<"manmode"<<isManMode;
-
-    if(isManMode==false){
 
 
+    if(isCalcMode){
         method_calc();
         QString curentStr=le_guige->text();
         if(list_guige.contains(curentStr)==false){
             list_guige.append(le_guige->text());
         }
-
         ui->cb_tong->setFocus();
     }
 
-    if(isManMode==true){
+    if(isManMode){
         method_doman();
 
+    }
 
+    if(isACBMode){
+
+
+
+        QRegExp re_acbmccb("(acb)[1-9][0-9]{1,4}");
+        if(re_acbmccb.exactMatch(txtStr)){
+            le_guige->clear();
+
+            if(txtStr=="acb400"){
+                le_guige->setText("-30*4*");
+            }
+            if(txtStr=="acb630"){
+                le_guige->setText("-50*5*");
+            }
+            if(txtStr=="acb800"){
+                le_guige->setText("-50*6*");
+            }
+            if(txtStr=="acb1000"){
+                le_guige->setText("-60*8*");
+            }
+            if(txtStr=="acb1250"){
+                le_guige->setText("-60*10*");
+            }
+
+            if(txtStr=="acb1600"){
+                le_guige->setText("-80*10*");
+            }
+            if(txtStr=="acb2000"){
+                le_guige->setText("-100*10*");
+            }
+
+            le_guige->setFocus();
+
+
+
+        }
     }
 
 
-    QRegExp re_acbmccb("(acb)[1-9][0-9]{1,4}");
 
-    if(re_acbmccb.exactMatch(txtStr)){
-        le_guige->clear();
-
-        if(txtStr=="acb400"){
-            le_guige->setText("-30*4*");
-        }
-        if(txtStr=="acb630"){
-            le_guige->setText("-50*5*");
-        }
-        if(txtStr=="acb800"){
-            le_guige->setText("-50*6*");
-        }
-        if(txtStr=="acb1000"){
-            le_guige->setText("-60*8*");
-        }
-        if(txtStr=="acb1250"){
-            le_guige->setText("-60*10*");
-        }
-
-        if(txtStr=="acb1600"){
-            le_guige->setText("-80*10*");
-        }
-        if(txtStr=="acb2000"){
-            le_guige->setText("-100*10*");
-        }
-
-        le_guige->setFocus();
-
-
-
-    }
 
 }
 
